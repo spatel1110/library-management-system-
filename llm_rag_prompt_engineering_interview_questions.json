@@ -1,0 +1,1002 @@
+[
+  {
+    "id": 1,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is a Large Language Model (LLM)?",
+    "diagram": "Input Text -> [Tokenizer] -> [Transformer Layers] -> [Output Probabilities] -> Generated Text",
+    "hinglish_explanation": "Yaar LLM basically ek bahut bada neural network hai jo internet ke crores documents pe train hua hai. Iska kaam hai next word predict karna - bas yahi simple sa kaam hai, but scale itna bada hai ki yeh insaan jaisa likhne lagta hai. GPT, Claude, Gemini sab LLM hi hain.",
+    "real_life_example": "Jab tum WhatsApp pe type karte ho aur upar suggestions aati hain 'kaisa hai', 'theek hai' - wahi same concept hai but 1000x bigger. ChatGPT bhi yahi karta hai, bas billion parameters ke saath.",
+    "how_to_answer": "- Define as transformer-based neural network trained on massive text corpora\n- Mention parameter scale: billions to trillions (GPT-3 has 175B)\n- Core task: next token prediction (autoregressive)\n- Pre-training on unlabeled data + fine-tuning for specific tasks\n- Examples: GPT-4, Claude, Llama, Gemini\n- Capabilities: text generation, summarization, reasoning, code generation\n- Mention emergent abilities at scale"
+  },
+  {
+    "id": 2,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is RAG (Retrieval Augmented Generation)?",
+    "diagram": "Query -> [Embed] -> [Vector DB Search] -> [Top-K Docs] -> [LLM with Context] -> Answer",
+    "hinglish_explanation": "RAG ek aisa system hai jo LLM ko apna khud ka knowledge base de deta hai. Pehle relevant documents dhundo, fir woh documents LLM ko context ke saath do, fir LLM uss context se answer banata hai. Matlab LLM ko exam mein open book diya jaa raha hai.",
+    "real_life_example": "Socho Swiggy ka customer support chatbot - tumne pucha 'mera order kaha hai' - chatbot pehle tumhare order DB se details nikaalta hai, fir LLM ko deta hai context, fir LLM personalized answer deta hai. Yahi RAG hai.",
+    "how_to_answer": "- Define RAG: combines retrieval system with generative LLM\n- Two main components: Retriever (vector DB) + Generator (LLM)\n- Solves hallucination problem by grounding in real data\n- Allows up-to-date info without retraining model\n- Workflow: query -> embed -> retrieve top-k -> augment prompt -> generate\n- Mention common stack: FAISS/Pinecone + OpenAI/Llama\n- Use cases: enterprise QA, customer support, document chat"
+  },
+  {
+    "id": 3,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is prompt engineering?",
+    "diagram": "[Task Goal] -> [Craft Prompt: Instructions + Context + Examples + Format] -> [LLM] -> [Desired Output]",
+    "hinglish_explanation": "Prompt engineering matlab LLM ko sahi tarike se instructions dene ki kala. Same model se accha ya bekaar dono output mil sakta hai - sirf prompt change karne se. Jaise junior engineer ko kaam samjhana hota hai - clear, examples ke saath, expected output bata ke.",
+    "real_life_example": "Zomato delivery boy ko bolna 'khana le aana' vs 'Andheri East ke Domino's se large pizza, 7pm tak, gate number 4 pe' - dono prompt hain, but second wala accurate result dega. LLM ke saath bhi same hai.",
+    "how_to_answer": "- Define as crafting inputs to get desired LLM outputs\n- Key elements: clear instructions, context, examples, output format\n- Techniques: zero-shot, few-shot, chain-of-thought, role prompting\n- Mention system prompts vs user prompts\n- Importance: same model, vastly different results based on prompt\n- Real impact: 30-50% accuracy improvement in production tasks\n- Tools: LangChain templates, OpenAI playground for iteration"
+  },
+  {
+    "id": 4,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is tokenization in LLMs?",
+    "diagram": "\"Hello world!\" -> Tokenizer -> [\"Hello\", \" world\", \"!\"] -> [15496, 995, 0]",
+    "hinglish_explanation": "Tokenization matlab text ko chote chote pieces mein todna jisko model samajh sake. Yeh pieces words bhi ho sakte hain, sub-words bhi, ya letters bhi. Har token ko ek number assign hota hai, fir model uss number ko process karta hai. Bina tokenization, model text ko samajh hi nahi sakta.",
+    "real_life_example": "Jaise courier delivery mein bada package chote boxes mein break karte hain shipping ke liye - waise hi LLM 'mera naam Rahul hai' ko ['mera', 'naam', 'Rah', 'ul', 'hai'] jaise tokens mein todta hai.",
+    "how_to_answer": "- Define: process of converting text into tokens (numerical IDs)\n- Common algorithms: BPE (GPT), WordPiece (BERT), SentencePiece (T5)\n- Subword tokenization handles unknown words better\n- Average: 1 token ~ 0.75 words in English\n- Affects context window, cost (per-token pricing), performance\n- Mention vocabulary size (~50k for GPT, ~32k for Llama)\n- Issues: tokenizers struggle with non-English, numbers, code"
+  },
+  {
+    "id": 5,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is an embedding in the context of LLMs?",
+    "diagram": "\"king\" -> [Embedding Model] -> [0.21, -0.45, 0.78, ..., 0.13] (1536-dim vector)",
+    "hinglish_explanation": "Embedding ek vector hai jo word ya sentence ka 'meaning' numerically capture karta hai. Similar meaning waale text ke vectors close hote hain vector space mein. Yeh basically text ka mathematical fingerprint hai jisko hum compare kar sakte hain cosine similarity se.",
+    "real_life_example": "Jaise Spotify har gaane ko genre, mood, tempo ke basis pe coordinates deta hai - sad songs ek cluster mein, party songs doosre mein. Same waise text embeddings - 'pizza' aur 'burger' ke vectors paas honge, 'pizza' aur 'cricket' ke door.",
+    "how_to_answer": "- Define: dense vector representation of text capturing semantic meaning\n- Typical dimensions: 384, 768, 1536, 3072\n- Generated by models like BERT, OpenAI ada, Sentence-BERT\n- Similar meanings -> close vectors (cosine similarity)\n- Foundation of semantic search and RAG retrieval\n- Mention: text-embedding-3-small (1536d), all-MiniLM-L6-v2 (384d)\n- Use cases: search, clustering, classification, recommendation"
+  },
+  {
+    "id": 6,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is a vector database and why do we need it for RAG?",
+    "diagram": "[Documents] -> [Embed] -> [Vector DB: store + index] -> [Query Vector] -> [ANN Search] -> Top-K",
+    "hinglish_explanation": "Vector database matlab specialized database jo high-dimensional vectors store karta hai aur fast similarity search deta hai. Normal SQL DB mein millions vectors search karoge to ghante lag jaayenge - vector DB milliseconds mein de deta hai using ANN algorithms like HNSW.",
+    "real_life_example": "Flipkart pe 'phone' search karte ho to 1 second mein crores products mein se relevant dikhata hai - waise hi vector DB millions of document chunks mein se semantically similar wale instant nikalta hai.",
+    "how_to_answer": "- Specialized DB optimized for high-dimensional vector storage and search\n- Uses ANN (Approximate Nearest Neighbor) algorithms - HNSW, IVF\n- Popular options: Pinecone, Weaviate, Chroma, Qdrant, FAISS\n- Why needed: brute force similarity on millions of vectors is too slow\n- Features: metadata filtering, hybrid search, scalability\n- Mention trade-off: speed vs recall (recall@10)\n- I've used Pinecone in production and FAISS for prototypes"
+  },
+  {
+    "id": 7,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is the context window in LLMs?",
+    "diagram": "[System Prompt + Chat History + Retrieved Docs + User Query] <= Context Window Limit (e.g., 128k tokens)",
+    "hinglish_explanation": "Context window matlab kitna text LLM ek baar mein dekh sakta hai - input aur output dono milake. GPT-4 ka 128k tokens hai, Claude ka 200k. Agar limit cross kar gaye to model bhul jaata hai purana content. Yeh RAG mein bahut important hai kyunki retrieved docs yahi mein fit karne padte hain.",
+    "real_life_example": "Jaise WhatsApp pe ek message mein character limit hota hai - utna hi type kar sakte ho. LLM ka context window bhi same hai - bas yeh tokens mein measure hota hai aur 100k+ tokens (lagbhag 75k words) tak ja sakta hai.",
+    "how_to_answer": "- Maximum tokens (input + output) model can process at once\n- Examples: GPT-4 Turbo 128k, Claude 3 200k, Gemini 1.5 1M\n- Includes system prompt, chat history, retrieved context, response\n- Larger windows = higher cost and latency\n- Long context degradation: 'lost in the middle' problem\n- Critical for RAG: balance retrieved docs with budget\n- Mitigation: summarization, sliding window, RAG itself"
+  },
+  {
+    "id": 8,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is hallucination in LLMs?",
+    "diagram": "Query -> [LLM without grounding] -> Confident but FACTUALLY WRONG output",
+    "hinglish_explanation": "Hallucination matlab LLM confident ho ke galat answer dena. Model ko jab pata nahi hota, tab woh 'I don't know' nahi bolta - wo plausible sounding bakwaas bana deta hai. Jaise koi friend jo har baat pe expert banta hai but actually pata kuch nahi.",
+    "real_life_example": "Tum ChatGPT se poocho 'Akshay Kumar ki 1995 ki movie kaunsi thi' - model ek movie name bana deta hai jo actually exist hi nahi karti, but bahut confidently bolta hai. Yahi hallucination hai - jo court cases mein bhi lawyers ko trouble mein dal chuka hai.",
+    "how_to_answer": "- Define: LLM generating factually incorrect but plausible content\n- Causes: training data gaps, statistical pattern completion, no grounding\n- Types: factual hallucination, contextual, logical inconsistency\n- Mitigation: RAG (retrieval grounding), citations, lower temperature\n- Detection: fact-checking, self-consistency, verification chains\n- Major concern in healthcare, legal, finance applications\n- I use RAG + citation requirements + RAGAS faithfulness metric"
+  },
+  {
+    "id": 9,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is the difference between zero-shot and few-shot prompting?",
+    "diagram": "Zero-shot: [Instruction] -> [LLM] -> Output\nFew-shot: [Instruction + Example1 + Example2 + Example3] -> [LLM] -> Output",
+    "hinglish_explanation": "Zero-shot matlab bina koi example diye direct task bolna - 'iska sentiment bata'. Few-shot mein 2-5 examples deke pattern dikhate ho, fir actual task. Few-shot generally better kaam karta hai because model ko format aur expectation samajh aata hai.",
+    "real_life_example": "Naye intern ko bolna 'invoice banao' (zero-shot) vs '2 sample invoices dikha ke fir bolna iss client ka banao' (few-shot). Doosra approach hamesha better result dega kyunki pattern clear hai.",
+    "how_to_answer": "- Zero-shot: only instruction, no examples\n- Few-shot: 2-5 input-output examples in the prompt\n- Few-shot typically improves accuracy by 10-30%\n- Few-shot better for: format consistency, edge cases, novel tasks\n- Zero-shot better for: simple tasks, when examples are biased\n- Mention 'in-context learning' as the underlying mechanism\n- Trade-off: few-shot uses more tokens (cost + context window)"
+  },
+  {
+    "id": 10,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is chunking in RAG and why is it important?",
+    "diagram": "[Long Document 100 pages] -> [Chunker: 500 tokens, 50 overlap] -> [Chunk1, Chunk2, ..., ChunkN] -> Embed each",
+    "hinglish_explanation": "Chunking matlab bade documents ko chote pieces mein todna before storing in vector DB. Agar pura 100-page PDF ek hi vector mein store kar diya to retrieval bekaar hoga - kuch bhi specific nahi milega. Sahi chunk size aur overlap RAG quality decide karta hai.",
+    "real_life_example": "Jaise NCERT ki textbook ko chapters aur subsections mein todke padhte ho, taaki specific topic dhundhna easy ho. Pura book ek baar mein search nahi karte. RAG mein bhi document ko 500-1000 token chunks mein todte hain.",
+    "how_to_answer": "- Splitting documents into smaller pieces for embedding and retrieval\n- Why: embeddings work better on focused content, context window limits\n- Common sizes: 256-1024 tokens, with 10-20% overlap\n- Strategies: fixed-size, semantic, recursive, document structure-aware\n- Trade-off: too small = lost context, too big = noisy retrieval\n- I prefer recursive character splitter from LangChain\n- Critical for RAG quality - bad chunking = bad retrieval"
+  },
+  {
+    "id": 11,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is temperature in LLM generation?",
+    "diagram": "Logits -> /temperature -> Softmax -> Sampling\nT=0: deterministic | T=0.7: balanced | T=1.5: creative/random",
+    "hinglish_explanation": "Temperature ek parameter hai jo control karta hai LLM kitna random ya creative output dega. 0 matlab same input pe same output har baar (deterministic). 1+ matlab creative aur unpredictable. RAG mein 0-0.3 use karte hain, creative writing mein 0.7-1.",
+    "real_life_example": "Jaise tum chai banate ho - same recipe (T=0) ya thoda variation ke saath (T=0.7) ya bilkul experimental flavors (T=1.5). Customer support bot ke liye T=0, story writing ke liye T=0.8.",
+    "how_to_answer": "- Hyperparameter controlling randomness in next-token sampling\n- Mathematically: scales logits before softmax\n- T=0: greedy decoding, deterministic\n- T=0.7-1.0: balanced creativity (default for chat)\n- T>1.0: more diverse but risk of incoherence\n- For RAG/factual tasks: keep T=0 to 0.3\n- For creative tasks: T=0.7 to 1.0\n- Often combined with top_p (nucleus sampling)"
+  },
+  {
+    "id": 12,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is top-k and top-p (nucleus) sampling?",
+    "diagram": "Top-k=5: pick from top 5 tokens\nTop-p=0.9: pick from smallest set whose cumulative prob >= 0.9",
+    "hinglish_explanation": "Sampling strategies hain LLM ka next token choose karne ke. Top-k matlab sirf top K probable tokens consider karo. Top-p (nucleus) matlab tokens tak jao jab tak cumulative probability 0.9 na ho jaaye - dynamic hai. Top-p mostly preferred kyunki yeh adapt karta hai distribution ke hisaab se.",
+    "real_life_example": "Restaurant menu se order karna - top-k matlab 'top 5 dishes mein se choose karo'. Top-p matlab 'jo dishes 90% logo ko pasand hai unmein se choose karo'. Top-p smarter hai because list size adjust hoti hai.",
+    "how_to_answer": "- Top-k: sample from K most probable tokens (e.g., k=40)\n- Top-p: sample from minimal set with cumulative probability >= p (e.g., p=0.9)\n- Top-p is adaptive - candidate set varies per token\n- Often used together with temperature\n- Top-p typically preferred over top-k for better quality\n- Default in OpenAI: top_p=1.0, temperature=1.0\n- Lower values = more focused, higher = more diverse"
+  },
+  {
+    "id": 13,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is fine-tuning in LLMs?",
+    "diagram": "[Pre-trained LLM] + [Domain Dataset] -> [Fine-tune] -> [Specialized LLM]",
+    "hinglish_explanation": "Fine-tuning matlab pre-trained model ko apne specific domain ke data pe further train karna. General LLM ko medical, legal, ya banking specialist banane ke liye. RAG vs fine-tuning ka choice depend karta hai - knowledge update chahiye to RAG, behavior change chahiye to fine-tune.",
+    "real_life_example": "Engineering graduate ko company join karne ke baad company-specific training milti hai - same general engineer ab Infosys ke specific tools aur processes mein expert ban jaata hai. Fine-tuning bhi yahi karta hai LLM ke saath.",
+    "how_to_answer": "- Continuing training of pretrained model on task/domain-specific data\n- Types: full fine-tuning, LoRA, QLoRA, instruction tuning\n- Use cases: specific tone, domain language, structured output\n- vs RAG: fine-tuning teaches behavior, RAG provides knowledge\n- Typical setup: 1k-100k examples, low learning rate (1e-5)\n- Tools: HuggingFace Trainer, Axolotl, Unsloth\n- Cost: full FT expensive, LoRA cuts it 90%+"
+  },
+  {
+    "id": 14,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is the difference between RAG and fine-tuning?",
+    "diagram": "RAG: [Knowledge in DB] -> retrieve at runtime\nFine-tune: [Knowledge baked into weights] -> use directly",
+    "hinglish_explanation": "RAG matlab knowledge external database mein, runtime pe fetch karte ho. Fine-tuning matlab knowledge model ke weights mein bhi store kar di. RAG flexibility deta hai (data update easy), fine-tuning consistency aur speed deta hai. Mostly hybrid approach best hota hai.",
+    "real_life_example": "RAG = doctor jiske paas medical reference book hai (har patient ke liye refer karta hai). Fine-tuning = doctor jisne specialty mein PhD kar li hai (knowledge in head). Best hospital dono use karte hain.",
+    "how_to_answer": "- RAG: external knowledge retrieved at inference; fine-tuning: knowledge in weights\n- RAG pros: easy updates, citations, smaller model works\n- RAG cons: latency, retrieval failures, context window limits\n- Fine-tune pros: faster inference, learns style/format, no retrieval needed\n- Fine-tune cons: expensive, knowledge cutoff, hard to update\n- Use RAG for: factual QA, frequently changing data\n- Use FT for: tone, format, classification, agent behavior\n- Hybrid: fine-tune for style + RAG for facts (best practice)"
+  },
+  {
+    "id": 15,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is a system prompt?",
+    "diagram": "[System: 'You are a helpful coding assistant'] + [User: 'fix this bug'] -> LLM",
+    "hinglish_explanation": "System prompt LLM ko uski role aur behavior define karta hai - poori conversation ke liye. User prompt har baar change hota hai but system prompt fixed rehta hai. Iska weight zyaada hota hai - model isko strongly follow karta hai.",
+    "real_life_example": "Call center mein agent ko company SOP diya jaata hai shuru mein - 'always greet customer, never share personal info, be polite'. Yeh system prompt hai. Phir har customer call user prompt jaisa hota hai.",
+    "how_to_answer": "- Top-level instruction defining LLM's role, persona, constraints\n- Set once, persists across the conversation\n- Higher priority than user messages in modern LLMs\n- Used for: persona, output format, safety guardrails, knowledge scope\n- Anthropic and OpenAI both support dedicated system role\n- Best practice: be specific, include examples, define edge cases\n- I use it for tone control and structured output enforcement"
+  },
+  {
+    "id": 16,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is cosine similarity and why is it used in RAG?",
+    "diagram": "cos(theta) = (A.B) / (|A| x |B|)\nA.B = vectors of query and document\nRange: -1 to 1, closer to 1 = more similar",
+    "hinglish_explanation": "Cosine similarity do vectors ke beech ka angle measure karta hai - magnitude ignore karke direction dekhta hai. RAG mein iska use isliye hota hai kyunki text length se nahi, meaning se match karna hai. -1 se 1 tak range hoti hai, 1 matlab same direction.",
+    "real_life_example": "Do dosti ke interests compare karna - dono ko cricket aur Bollywood dono pasand (high similarity) vs ek ko cricket pasand doosre ko classical music (low similarity). Magnitude matter nahi karta, direction matter karta hai.",
+    "how_to_answer": "- Measures angle between two vectors, ignoring magnitude\n- Formula: dot product / (norm A x norm B)\n- Range: -1 to 1 (1 = identical direction, 0 = orthogonal)\n- Why preferred over Euclidean: text length-invariant\n- Standard in semantic search and RAG retrieval\n- Most vector DBs default to cosine similarity\n- Alternative: dot product (faster if vectors normalized)"
+  },
+  {
+    "id": 17,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is BM25 and how does it differ from semantic search?",
+    "diagram": "BM25: keyword frequency-based scoring\nSemantic: dense vector similarity\nHybrid: combine both with weights",
+    "hinglish_explanation": "BM25 ek classic keyword search algorithm hai - exact words match karta hai with TF-IDF type scoring. Semantic search embeddings use karta hai - meaning match karta hai. BM25 'iPhone 15' ke liye perfect, semantic 'best mobile under 50k' ke liye better. Hybrid dono use karta hai.",
+    "real_life_example": "Library mein book dhundhna - BM25 = exact title se search ('Wings of Fire'). Semantic = meaning se search ('inspirational autobiography Indian scientist' -> Wings of Fire mil jaayegi). Dono ka apna use case hai.",
+    "how_to_answer": "- BM25: probabilistic keyword-based ranking (improved TF-IDF)\n- Considers term frequency, inverse document frequency, doc length\n- Semantic search: dense vector embeddings, captures meaning\n- BM25 strengths: exact matches, names, codes, jargon\n- Semantic strengths: paraphrases, synonyms, conceptual queries\n- Hybrid search (BM25 + dense) typically beats either alone\n- I implement hybrid using Elasticsearch BM25 + Pinecone dense"
+  },
+  {
+    "id": 18,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is chain-of-thought (CoT) prompting?",
+    "diagram": "Q: math problem\nWithout CoT: 'Answer: 42'\nWith CoT: 'Step 1...Step 2...Step 3...Therefore answer is 42'",
+    "hinglish_explanation": "Chain-of-thought matlab LLM ko bolna 'step by step sochke batao'. Direct answer maangne se accuracy kam hoti hai complex problems mein. Reasoning steps generate karne se model better answer deta hai - especially math, logic, multi-step questions mein.",
+    "real_life_example": "Math exam mein direct answer likhne se marks kam milte hain, working dikhane se full marks. LLM bhi same - 'Let's think step by step' add karne se accuracy 20-40% improve ho sakti hai.",
+    "how_to_answer": "- Prompting technique that elicits step-by-step reasoning\n- Magic phrase: 'Let's think step by step'\n- Improves performance on math, logic, multi-hop reasoning\n- Original paper showed 20-40% accuracy gains on GSM8K\n- Two types: zero-shot CoT and few-shot CoT (with reasoning examples)\n- Trade-off: more tokens = higher cost and latency\n- Foundation for advanced techniques like Self-Consistency, ToT"
+  },
+  {
+    "id": 19,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is the role of an embedding model in RAG?",
+    "diagram": "Documents + Queries -> [Embedding Model (e.g., text-embedding-3)] -> Vectors -> Compare",
+    "hinglish_explanation": "Embedding model RAG ka backbone hai - yeh decide karta hai retrieval kitna accha hoga. Documents aur query dono same model se embed hone chahiye. Different models different dimensions aur quality dete hain. text-embedding-3-large, all-MiniLM, BGE - sab popular choices hain.",
+    "real_life_example": "Jaise Ola driver ko address samajhna - agar driver Hindi samjhta hai aur tum English address bolte ho to confusion. Embedding model bhi documents aur query ko same 'language' mein convert karna chahiye - i.e., same embedding space.",
+    "how_to_answer": "- Converts text into dense vectors capturing semantic meaning\n- Both documents and queries must use the SAME model\n- Popular models: OpenAI text-embedding-3, BGE, E5, MiniLM\n- Trade-offs: dimension (cost/speed), quality (MTEB benchmark)\n- For Indian languages: muril, IndicBERT\n- I use text-embedding-3-small (1536d) - good cost/quality\n- Critical: embedding quality directly determines RAG accuracy"
+  },
+  {
+    "id": 20,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is in-context learning?",
+    "diagram": "[Examples in prompt] -> [LLM learns pattern from examples] -> [Apply to new input]",
+    "hinglish_explanation": "In-context learning matlab LLM examples se 'on the fly' seekhta hai bina training ke. Tum prompt mein 2-3 examples do, model unka pattern pakad ke naye input pe apply kar deta hai. Yeh emergent ability hai - sirf bade models mein dikhti hai.",
+    "real_life_example": "Tumne kabhi card game seekhi hai - koi 2-3 hand dekha ke 'aise khelte hain' bata diya, fir tum khelne lage. LLM bhi waise hi few examples se task pickup kar leta hai bina formal training ke.",
+    "how_to_answer": "- Ability to learn from examples in the prompt without parameter updates\n- Emergent behavior in models above ~10B parameters\n- Foundation of few-shot prompting\n- Examples called 'shots' or 'demonstrations'\n- Format: input1->output1, input2->output2, new_input->?\n- Caveat: 'learning' is loose term - it's pattern matching\n- Limited by context window; often 3-5 shots optimal"
+  },
+  {
+    "id": 21,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is a transformer architecture?",
+    "diagram": "Input -> [Embedding + Pos Encoding] -> [Multi-Head Attention -> FFN] x N layers -> Output",
+    "hinglish_explanation": "Transformer ek neural network architecture hai jo 'attention' mechanism use karta hai. RNN ki tarah sequential nahi, parallel process karta hai - isliye fast aur scalable. 2017 ke 'Attention is All You Need' paper se aaya. GPT, BERT, har modern LLM transformer pe based hai.",
+    "real_life_example": "Jaise tum group chat padhte ho - sab messages ek baar mein dekh sakte ho aur context samajh sakte ho (transformer). Phone call mein ek-ek baat sun ke samajhna padta tha (RNN). Transformer parallel hai isliye GPU pe bahut fast train hota hai.",
+    "how_to_answer": "- Neural net architecture from 'Attention is All You Need' (2017)\n- Core components: self-attention, multi-head attention, FFN, positional encoding\n- Replaces RNN/LSTM with parallel processing\n- Encoder-only (BERT), decoder-only (GPT), encoder-decoder (T5)\n- Modern LLMs are decoder-only transformers\n- Enables scaling to billions of parameters\n- Foundation of all modern LLMs"
+  },
+  {
+    "id": 22,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is self-attention in transformers?",
+    "diagram": "Each token -> Q, K, V vectors\nAttention(Q,K,V) = softmax(QK^T / sqrt(d)) x V",
+    "hinglish_explanation": "Self-attention matlab har word baaki saare words ko 'dekh' ke decide karta hai konsa important hai. Sentence ke har token ke liye - har doosre token se relationship calculate hoti hai. Yahi reason hai transformer long-range dependencies handle kar paata hai.",
+    "real_life_example": "Class mein discussion - har student baaki sab ki baat sun ke fir apna point banata hai. Self-attention bhi yahi karta hai - 'bank' word ka meaning samajhne ke liye 'river' ya 'money' kaunsa context hai dekhta hai.",
+    "how_to_answer": "- Mechanism letting each token attend to all other tokens\n- Three projections: Query (Q), Key (K), Value (V)\n- Attention weights: softmax(Q.K^T / sqrt(d))\n- Captures long-range dependencies in parallel\n- Multi-head: multiple attention layers in parallel for different relationships\n- Complexity: O(n^2) - bottleneck for long context\n- Foundation of context understanding in LLMs"
+  },
+  {
+    "id": 23,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is the difference between encoder, decoder, and encoder-decoder models?",
+    "diagram": "Encoder: BERT (bidirectional, no generation)\nDecoder: GPT (autoregressive, generation)\nEnc-Dec: T5, BART (translation, summarization)",
+    "hinglish_explanation": "Encoder-only (BERT) text samajhne ke liye - classification, embeddings. Decoder-only (GPT) text generate karne ke liye - chat, completion. Encoder-decoder (T5) input ko encode karke fir generate karta hai - translation, summarization. Modern LLMs mostly decoder-only hain.",
+    "real_life_example": "Encoder = exam mein passage padhke MCQ solve karna (samajhna). Decoder = essay likhna (generate karna). Encoder-decoder = English to Hindi translate karna (samajhke fir likhna). ChatGPT decoder-only hai.",
+    "how_to_answer": "- Encoder: bidirectional attention, good for understanding (BERT, RoBERTa)\n- Decoder: causal/masked attention, autoregressive generation (GPT family)\n- Encoder-Decoder: cross-attention bridge, seq2seq (T5, BART)\n- Most modern LLMs are decoder-only (simpler, scales well)\n- Encoders dominate embedding models for retrieval\n- T5/BART best for translation, summarization\n- Choice depends on task: understanding vs generation vs both"
+  },
+  {
+    "id": 24,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What are the main components of a RAG pipeline?",
+    "diagram": "[Docs] -> [Loader] -> [Chunker] -> [Embedder] -> [Vector DB]\n[Query] -> [Embedder] -> [Retriever] -> [Reranker] -> [LLM] -> [Answer]",
+    "hinglish_explanation": "RAG pipeline ke main parts: 1) Document ingestion (load, chunk, embed) 2) Storage (vector DB) 3) Retrieval (query embed, search, rerank) 4) Generation (prompt construction, LLM call) 5) Evaluation. Production mein har step ka monitoring bhi chahiye.",
+    "real_life_example": "Restaurant ka workflow - ingredients lao (loader), prep karo (chunk), fridge mein store karo (vector DB), order aaye to fridge se nikaalo (retrieve), chef cook kare (LLM). Har step matter karta hai final dish ke liye.",
+    "how_to_answer": "- Indexing: document loaders, text splitters, embedding model, vector store\n- Retrieval: query embedding, similarity search, top-k selection\n- Optional: query rewriting, reranking (cross-encoder)\n- Generation: prompt construction, LLM call\n- Post-processing: citations, formatting, validation\n- Evaluation: RAGAS, faithfulness, relevance\n- Monitoring: latency, retrieval quality, hallucination rate\n- I use LangChain + Pinecone + OpenAI for most production RAGs"
+  },
+  {
+    "id": 25,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is a prompt template?",
+    "diagram": "Template: 'Answer based on context: {context}\\nQuestion: {question}'\nFilled: actual context + actual question",
+    "hinglish_explanation": "Prompt template ek reusable structure hai jisme variables hote hain - context, question, examples - jo runtime pe fill hote hain. Production mein hardcoded prompts use nahi karte, templates use karte hain. LangChain ka PromptTemplate, Jinja templates common hain.",
+    "real_life_example": "Bank ka SMS template - 'Dear {name}, your A/C ending {last4} debited Rs {amount}'. Variables fill ho ke har customer ko personalized SMS jaata hai. LLM prompts bhi waise hi templated hote hain.",
+    "how_to_answer": "- Reusable parameterized prompt structure with placeholders\n- Variables filled at runtime: context, query, examples, etc.\n- Tools: LangChain PromptTemplate, Jinja2, f-strings\n- Benefits: consistency, version control, A/B testing\n- Best practice: store templates separately from code\n- Include: instruction, context block, examples, query, format\n- I use LangChain ChatPromptTemplate with system+human messages"
+  },
+  {
+    "id": 26,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is FAISS and when would you use it?",
+    "diagram": "FAISS: in-memory vector index\nIVF, HNSW, PQ algorithms for fast ANN search\nBest for: prototypes, < 10M vectors",
+    "hinglish_explanation": "FAISS Facebook ka open-source vector search library hai - C++ mein likha, Python wrapper ke saath. Bahut fast hai, GPU support hai, but managed nahi hai. Prototypes, in-memory use cases, ya jab fully control chahiye tab use karte hain. Pinecone jaisa scaling khud handle karna padta hai.",
+    "real_life_example": "FAISS = apna khud ka data center setup karna (powerful, but maintenance). Pinecone = AWS jaisa managed cloud (easy, but cost zyaada). Mere semantic code search project mein FAISS use kiya tha because in-memory tha aur dataset chota tha.",
+    "how_to_answer": "- Open-source vector similarity search library by Meta/Facebook\n- Written in C++ with Python bindings\n- Algorithms: IVF, HNSW, PQ, IVF-PQ for compression\n- Pros: fast, GPU support, free, full control\n- Cons: no managed service, no built-in persistence/replication\n- Best for: prototypes, on-prem, < 10M vectors\n- I used FAISS in my Semantic Code Search project with CodeBERT\n- For production scale: Pinecone, Weaviate, Qdrant"
+  },
+  {
+    "id": 27,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is the difference between similarity search and keyword search?",
+    "diagram": "Keyword: 'cheap phone' -> matches docs with words 'cheap' AND 'phone'\nSimilarity: 'cheap phone' -> matches 'budget mobile', 'affordable smartphone' too",
+    "hinglish_explanation": "Keyword search exact words match karta hai - SQL LIKE ya BM25 type. Similarity search meaning match karta hai using embeddings. Tum 'budget mobile' search karo to keyword 'cheap phone' nahi laayega, but similarity laayega. Production mein hybrid best hai.",
+    "real_life_example": "Flipkart pe 'sasta laptop' search karo - keyword search sirf 'sasta laptop' wale results dega, similarity search 'budget laptop', 'affordable notebook', 'cheap PC' sab dikhayega. User ko relevant results milte hain.",
+    "how_to_answer": "- Keyword (lexical): exact term matching, BM25/TF-IDF based\n- Similarity (semantic): meaning-based, embedding cosine similarity\n- Keyword wins: names, codes, exact technical terms\n- Semantic wins: paraphrases, synonyms, intent matching\n- Hybrid search combines both with weighted scores (RRF common)\n- Hybrid typically gives 10-15% better recall than either alone\n- Most production RAGs now use hybrid retrieval"
+  },
+  {
+    "id": 28,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is reranking in RAG?",
+    "diagram": "Top-50 from vector search -> [Cross-encoder Reranker] -> Top-5 most relevant -> LLM",
+    "hinglish_explanation": "Reranking matlab vector search se aaye top-50 results ko ek aur model se pass karke better order mein lagana. Cross-encoder query aur document ko ek saath dekh ke score deta hai - more accurate but slow. Two-stage retrieval (fast retrieve + slow rerank) standard hai.",
+    "real_life_example": "Naukri.com pe job search - pehle algorithm 100 jobs filter karta hai (fast vector search), fir tum khud top 5 select karte ho (rerank). RAG mein cross-encoder yeh second step automate karta hai.",
+    "how_to_answer": "- Second-stage filtering of retrieved docs for better relevance\n- Use cross-encoder (e.g., BGE-reranker, Cohere rerank, ms-marco-MiniLM)\n- Cross-encoder scores query+doc together (more accurate than bi-encoder)\n- Trade-off: accuracy vs latency (cross-encoder is slower)\n- Typical pattern: retrieve top 50-100, rerank to top 5-10\n- Improves precision@k significantly (often 10-20%)\n- I use Cohere Rerank or BGE in production RAG systems"
+  },
+  {
+    "id": 29,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is a knowledge cutoff in LLMs?",
+    "diagram": "GPT-4: trained on data up to April 2023\nQuery about May 2024 event -> hallucinates or 'I don't know'",
+    "hinglish_explanation": "Knowledge cutoff matlab LLM ki training data ki last date. Uske baad ki events ke baare mein model ko nahi pata. GPT-4 ka cutoff April 2023 hai - to 2024 ke cricket world cup ka pucho to bakwaas bana dega. Yeh RAG ka ek major reason hai.",
+    "real_life_example": "Jaise tumne 2 saal pehle padhai band ki - aaj koi naya iPhone model puchhe to nahi pata hoga. LLM bhi waise hi - cutoff ke baad ka kuch nahi pata. Solution: RAG se latest data feed karo.",
+    "how_to_answer": "- Date beyond which model has no training data\n- Examples: GPT-4 (April 2023), Claude 3 (August 2023)\n- Model hallucinates or gives outdated info beyond cutoff\n- Mitigation: RAG with current data, function calling, web search tools\n- Important for: news, sports, prices, recent research\n- Always check cutoff before deploying for time-sensitive tasks\n- RAG is the standard solution to this problem"
+  },
+  {
+    "id": 30,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is a token in the context of LLMs?",
+    "diagram": "\"unbelievable\" -> [\"un\", \"believ\", \"able\"] = 3 tokens",
+    "hinglish_explanation": "Token LLM ki basic unit hai - words se chote, characters se bade. 'unbelievable' word teen tokens mein todega: 'un', 'believ', 'able'. English mein 1 word = 0.75 token average. LLM cost aur context window dono tokens mein hi count hote hain - words mein nahi.",
+    "real_life_example": "Jaise SMS mein 160 character limit hota tha - LLM ka limit tokens mein hai. 1 paisa SMS pe lagta tha, GPT-4 pe per token charge lagta hai - lagbhag 0.03$ per 1k input tokens.",
+    "how_to_answer": "- Basic unit of text processed by LLM\n- Roughly 0.75 words per token in English\n- Generated by tokenizer (BPE, WordPiece, SentencePiece)\n- Determines cost (per-token billing) and context window\n- Non-English languages often need more tokens per word\n- Code and special characters use more tokens\n- Tools: OpenAI tiktoken, HuggingFace tokenizers\n- Always estimate tokens before API calls in production"
+  },
+  {
+    "id": 31,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is the role of a retriever in RAG?",
+    "diagram": "Query -> [Retriever: vector DB + similarity search] -> Top-k relevant chunks -> LLM context",
+    "hinglish_explanation": "Retriever ka kaam hai user query ke liye relevant documents nikaalna knowledge base se. Yeh RAG ka 'R' hai - poori system ka quality decide karta hai. Bekaar retriever = bekaar answer, regardless of LLM kitna powerful ho. Usually vector search + reranking ka combination hota hai.",
+    "real_life_example": "Library mein librarian jaisa - tum 'Indian history books' poocho to woh 5 best books la deta hai. Retriever same - LLM ko padhne ke liye sahi books la ke deta hai. Galat books = galat answer.",
+    "how_to_answer": "- Component that fetches relevant context for the query\n- Uses vector similarity search, BM25, or hybrid\n- Quality of retriever caps the entire RAG quality\n- Key metrics: recall@k, precision@k, MRR\n- Types: dense (embeddings), sparse (BM25), hybrid, learned\n- Often paired with reranker for better precision\n- Can include filters (metadata, date, source)\n- I optimize retriever before tweaking LLM prompts"
+  },
+  {
+    "id": 32,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is HNSW algorithm?",
+    "diagram": "HNSW: hierarchical graph of vectors\nMulti-layer: top sparse, bottom dense\nLogarithmic search time",
+    "hinglish_explanation": "HNSW (Hierarchical Navigable Small World) ek ANN algorithm hai jo graph structure mein vectors store karta hai. Multi-layer hai - upper layers mein highways, lower mein local roads jaisa. Search bahut fast (logarithmic) but memory zyaada use karta hai. Pinecone, Weaviate, Qdrant sab use karte hain.",
+    "real_life_example": "Google Maps mein zoom out karke pehle bada area dekhte ho, fir zoom in. HNSW bhi same - upper layer mein quickly approximate area dhundhta hai, fir lower layers mein exact match. Isliye millions vectors mein milliseconds mein search hota hai.",
+    "how_to_answer": "- Approximate Nearest Neighbor search algorithm\n- Builds multi-layer graph: top sparse for fast skip, bottom dense for accuracy\n- O(log n) average search complexity\n- Trade-off: high memory usage, fast query\n- Default in Pinecone, Weaviate, Qdrant, FAISS option\n- Key parameters: M (connections), efConstruction, efSearch\n- High recall (90%+) at fast speeds (sub-100ms)\n- I tune efSearch=64 typically for production"
+  },
+  {
+    "id": 33,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is the difference between extractive and generative QA?",
+    "diagram": "Extractive: 'find span in doc' -> exact text from source\nGenerative: 'generate answer' -> can paraphrase/synthesize",
+    "hinglish_explanation": "Extractive QA matlab document mein se exact span nikalna - copy-paste type. Generative QA matlab apne words mein answer banana - LLMs yeh karte hain. Modern RAG generative hai - retrieve karke LLM se answer generate karwate hain. Extractive faster but less natural.",
+    "real_life_example": "Extractive = Wikipedia se ek line copy karke answer dena. Generative = wahi line padhke apne words mein explain karna. Generative zyaada user-friendly lagta hai, but hallucination risk hota hai.",
+    "how_to_answer": "- Extractive: returns exact text span from source document\n- Generative: synthesizes answer in natural language\n- Old QA (BERT-based SQuAD style) was extractive\n- Modern RAG with LLMs is generative\n- Extractive: 100% faithful, less natural\n- Generative: more natural, can synthesize across docs, hallucination risk\n- Hybrid: generate but cite specific spans\n- Choice depends on use case (legal/medical prefer extractive)"
+  },
+  {
+    "id": 34,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is a context-stuffed prompt?",
+    "diagram": "[System Prompt + Doc1 + Doc2 + Doc3 + ... + Doc20 + User Query] -> LLM",
+    "hinglish_explanation": "Context-stuffing matlab prompt mein zyaada se zyaada documents bhar dena - LLM ko bahut saara context dekar answer maangna. Risk: context window full ho jaata hai, 'lost in middle' problem aati hai (model middle wala content miss karta hai). Better is selective retrieval + reranking.",
+    "real_life_example": "Tumne pure semester ke notes ek saath padhne ki koshish ki - kuch yaad raha, kuch nahi. Same with LLM - 50 documents ek saath dene se beech wale documents ignore ho jaate hain.",
+    "how_to_answer": "- Including large amounts of context to compensate for poor retrieval\n- Anti-pattern: trades quality for context window usage\n- Issues: 'lost in the middle' phenomenon (Liu et al. 2023)\n- Cost increases linearly with context size\n- Latency increases with context length\n- Better: precise retrieval + reranking + top 3-5 docs\n- Long context models (1M+) tempt this but performance still degrades\n- I prefer precision over context stuffing"
+  },
+  {
+    "id": 35,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is hybrid search?",
+    "diagram": "Query -> [BM25 score + Vector score] -> [Weighted combine: 0.3 * sparse + 0.7 * dense] -> Top-K",
+    "hinglish_explanation": "Hybrid search matlab keyword (BM25) aur semantic (vector) dono ka combination. Best of both worlds - exact matches bhi milte hain, semantic matches bhi. Weighted combination ya RRF (Reciprocal Rank Fusion) se merge karte hain. Production mein 90% RAGs hybrid use karte hain.",
+    "real_life_example": "Amazon search - 'iPhone 15 Pro Max' likho to exact match (BM25), 'best premium mobile' likho to semantic match. Amazon dono use karta hai, isliye dono types ki queries handle ho jaati hain.",
+    "how_to_answer": "- Combines lexical (BM25) and semantic (dense) retrieval\n- Strategies: linear combination, RRF (Reciprocal Rank Fusion)\n- Captures: exact matches + semantic similarity\n- Particularly good for technical content, names, codes\n- Typical improvement: 10-20% over either alone\n- Implementations: Weaviate hybrid, Pinecone hybrid, Elasticsearch + dense\n- Tunable weight (alpha) for balance\n- Standard in production RAG systems today"
+  },
+  {
+    "id": 36,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is metadata filtering in vector search?",
+    "diagram": "Query: 'pricing info' + Filter: {department: 'finance', date: '>2024'}\n-> Vector search WITHIN filtered subset",
+    "hinglish_explanation": "Metadata filtering matlab vector search ke saath structured filters bhi lagana - jaise SQL WHERE clause. 'Marketing 2024' ke documents mein search karo, others ignore. Pinecone, Weaviate, Chroma sab support karte hain. Production mein ye must hai access control aur relevance ke liye.",
+    "real_life_example": "Naukri.com pe 'Python developer' search karte ho aur filter lagate ho 'Bangalore', '5+ years', 'remote'. Vector search ke saath metadata filter exactly yahi karta hai - relevant subset mein hi search.",
+    "how_to_answer": "- Combining vector search with structured filters (e.g., date, category)\n- Like SQL WHERE clause but for vector queries\n- Supported by: Pinecone, Weaviate, Qdrant, Chroma\n- Use cases: multi-tenancy, access control, time-based filtering\n- Two strategies: pre-filter (filter then search) vs post-filter\n- Pre-filter better for selective filters, post-filter for broad\n- Critical for enterprise RAG with sensitive data\n- I always design schema with metadata in mind upfront"
+  },
+  {
+    "id": 37,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is greedy decoding?",
+    "diagram": "At each step: pick token with highest probability\nDeterministic, fastest, but can be repetitive",
+    "hinglish_explanation": "Greedy decoding matlab har step pe sabse probable token utha lo - bas. Simple, deterministic, fast. But output repetitive aur boring ho sakta hai. Yeh temperature=0 ke barabar hai. Factual tasks ke liye theek, creative tasks ke liye nahi.",
+    "real_life_example": "Restaurant mein hamesha apni favorite same dish order karna - greedy. Safe, fast, but boring. Kabhi kabhi explore karoge to better experience milega - that's why we use temperature/sampling.",
+    "how_to_answer": "- Pick most probable token at each step (argmax)\n- Equivalent to temperature=0\n- Deterministic - same input gives same output\n- Pros: fast, reproducible, good for factual tasks\n- Cons: repetitive, locally optimal not globally\n- Alternatives: beam search, top-k, top-p, temperature sampling\n- Use for: code generation, structured outputs, RAG\n- Not for: creative writing, brainstorming"
+  },
+  {
+    "id": 38,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is beam search?",
+    "diagram": "Beam=3: maintain top 3 sequences at each step\nExpand each, keep top 3 of all expansions",
+    "hinglish_explanation": "Beam search matlab top-K candidate sequences saath saath maintain karna - greedy se better but slower. Translation, summarization mein use hota hai. Modern chat LLMs mostly nahi use karte - sampling better lagta hai natural conversations ke liye.",
+    "real_life_example": "Chess mein 3 best moves consider karna har step pe, instead of just 1 best. Better long-term decision but zyaada compute. Beam search yahi concept LLM tokens ke liye use karta hai.",
+    "how_to_answer": "- Maintain top-K sequences (beam width) at each step\n- Better than greedy for finding globally optimal sequences\n- Common in translation, summarization tasks\n- Beam width 3-5 typical\n- Cons: tends to produce generic, safe outputs\n- Computationally expensive (K times greedy)\n- Modern chat LLMs prefer sampling for diversity\n- Less common in GPT-style models"
+  },
+  {
+    "id": 39,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is the difference between RAG and a chatbot?",
+    "diagram": "Chatbot: LLM only -> answers from training data\nRAG: LLM + retrieval -> answers from your data",
+    "hinglish_explanation": "Chatbot generally LLM ka direct interface hai - jo model jaanta hai wahi answer karta hai. RAG-based chatbot tumhare specific data se answer karta hai - company docs, knowledge base, etc. Modern enterprise chatbots almost always RAG-based hote hain.",
+    "real_life_example": "ChatGPT = general chatbot (general knowledge). HDFC ka customer support chatbot = RAG-based (HDFC ke products, policies se answer). Pehla general, doosra company-specific.",
+    "how_to_answer": "- Chatbot is the user-facing application\n- RAG is an architecture for grounded answers\n- Plain chatbot: LLM only, limited to training data\n- RAG-based chatbot: retrieves from your data first\n- Most enterprise chatbots are RAG-based now\n- RAG enables: company-specific data, citations, freshness\n- Common stack: chat UI + RAG + LLM + memory\n- I've built both - RAG is standard for production"
+  },
+  {
+    "id": 40,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is LangChain and what problem does it solve?",
+    "diagram": "LangChain: chains, agents, retrievers, memory\nUnified abstractions over LLMs, vector DBs, tools",
+    "hinglish_explanation": "LangChain ek framework hai LLM applications banane ke liye - chains, agents, RAG, memory sab pre-built abstractions deta hai. Bina LangChain bhi banaya jaa sakta hai but boilerplate kam hota hai. LangGraph LangChain ka stateful version hai for agents.",
+    "real_life_example": "Jaise React frontend banane ke liye boilerplate kam karta hai - LangChain LLM apps ke liye same. Manually OpenAI + Pinecone + parsing likho ya LangChain ke 10 lines mein same kaam.",
+    "how_to_answer": "- Framework for building LLM applications\n- Provides: chains, agents, retrievers, memory, tools\n- Abstracts over LLM providers, vector DBs, document loaders\n- Reduces boilerplate for RAG, agents, tool use\n- Ecosystem: LangSmith (monitoring), LangGraph (agents), LangServe (deploy)\n- Trade-off: convenience vs lock-in/abstraction overhead\n- I use LangChain heavily; LangGraph for complex agent flows\n- Alternatives: LlamaIndex, Haystack, raw API calls"
+  },
+  {
+    "id": 41,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is LlamaIndex and how does it differ from LangChain?",
+    "diagram": "LlamaIndex: data-focused, RAG-first\nLangChain: workflow-focused, general LLM apps",
+    "hinglish_explanation": "LlamaIndex specifically RAG aur data-related tasks pe focused hai - indexing, retrieval, query engines. LangChain broader hai - agents, chains, sab kuch. Agar tum RAG-heavy app bana rahe ho to LlamaIndex zyaada powerful options deta hai.",
+    "real_life_example": "LangChain = Swiss Army knife (sab kuch). LlamaIndex = specialized RAG screwdriver (specific kaam mein expert). Mostly project size pe depend karta hai konsa choose karna hai.",
+    "how_to_answer": "- Both are LLM application frameworks\n- LlamaIndex: data-centric, RAG-optimized, advanced indexing\n- LangChain: broader scope, agents, chains, integrations\n- LlamaIndex strengths: query engines, sub-question, advanced retrievers\n- LangChain strengths: tool use, agents, large ecosystem\n- Often used together (LlamaIndex retrievers in LangChain)\n- I use LlamaIndex for complex RAG, LangChain for agents\n- Both interoperate well"
+  },
+  {
+    "id": 42,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is OpenAI's function calling?",
+    "diagram": "User query -> [LLM decides function + arguments] -> [Execute function] -> [Result back to LLM] -> Response",
+    "hinglish_explanation": "Function calling matlab LLM ko bata dena 'ye functions available hain', LLM khud decide karega kab call karna hai, kya parameters dene hain. Tools, agents, structured output sab iske upar bante hain. Modern way to make LLM interact with external systems.",
+    "real_life_example": "Tumne assistant ko bola 'meeting schedule karo'. Assistant calendar check karega (function 1), email bhejega (function 2), reminder set karega (function 3). LLM bhi waise hi functions chain karta hai.",
+    "how_to_answer": "- LLM outputs structured JSON to call your defined functions\n- Define functions with name, description, JSON schema\n- LLM picks function and fills arguments based on user input\n- Foundation of agents, tool use, structured output\n- OpenAI 'tools' API is the modern version\n- Anthropic Claude has 'tool use', similar concept\n- Use for: APIs, DB queries, calculations, external actions\n- I use it for SQL agents and multi-tool agents"
+  },
+  {
+    "id": 43,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is structured output in LLMs?",
+    "diagram": "Prompt: 'Return JSON with fields name, age'\nLLM -> {\"name\": \"Rahul\", \"age\": 25}",
+    "hinglish_explanation": "Structured output matlab LLM se JSON, XML, ya specific format mein response lena - free text nahi. Production mein ye must hai - downstream code ko parse karna hai. OpenAI ka json_mode, response_format, Pydantic schemas - sab options hain.",
+    "real_life_example": "Tum form fill karte ho - name, age, address fields mein. Free text mein nahi, structured. LLM se bhi same chahiye production mein - 'name: Rahul, age: 25' as JSON, not 'mera naam Rahul hai aur main 25 saal ka hoon'.",
+    "how_to_answer": "- Forcing LLM to return data in specific format (JSON, XML, YAML)\n- Methods: prompt instruction, response_format='json', tool calling, schema constraints\n- OpenAI: json_mode, structured outputs (strict schema)\n- Tools: Pydantic + Instructor, LangChain output parsers\n- Critical for production - parsable, predictable\n- Validation layer always recommended\n- Recent: 100% schema-conforming outputs (OpenAI structured outputs)\n- I use Pydantic with Instructor for type-safe outputs"
+  },
+  {
+    "id": 44,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is an LLM agent?",
+    "diagram": "User Goal -> [LLM Reasoning] -> [Tool Selection] -> [Execute] -> [Observe] -> [Repeat] -> Final Answer",
+    "hinglish_explanation": "Agent matlab LLM jo plan banata hai, tools use karta hai, observations dekhta hai, fir next step decide karta hai. Reactive nahi - proactive. ReAct pattern, tool calling, multi-step reasoning - sab agents hi hain. LangGraph mein achhe agents bante hain.",
+    "real_life_example": "Personal assistant - tum bolte ho 'Goa trip plan karo'. Wo flights search karta hai, hotels check karta hai, weather dekhta hai, fir final plan deta hai. Multiple tools, multi-step. LLM agent same karta hai.",
+    "how_to_answer": "- LLM that uses tools and reasoning to accomplish goals\n- Loop: think -> act (tool) -> observe -> repeat\n- Components: LLM, tools, memory, planning\n- Patterns: ReAct, Plan-and-Execute, Reflexion\n- Frameworks: LangGraph, AutoGen, CrewAI\n- Use cases: research, code generation, customer support\n- Trade-off: powerful but harder to control/debug\n- I've built multi-agent systems with LangGraph"
+  },
+  {
+    "id": 45,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is the ReAct pattern?",
+    "diagram": "Thought -> Action -> Observation -> Thought -> ... -> Final Answer",
+    "hinglish_explanation": "ReAct = Reasoning + Acting. Agent har step pe sochta hai (Thought), kuch karta hai (Action), result dekhta hai (Observation), fir aage sochta hai. Yeh interleaving reasoning aur action ka hai. Standard agent pattern hai - LangChain, LlamaIndex sab support karte hain.",
+    "real_life_example": "Detective investigation - 'lagta hai motive paisa hai' (thought), 'bank records check karo' (action), 'unusual transaction mili' (observation), 'aur dig karte hain' (next thought). LLM agents bhi exactly same flow follow karte hain.",
+    "how_to_answer": "- Reasoning + Acting framework for agents (Yao et al. 2022)\n- Interleaves thinking with tool actions\n- Format: Thought -> Action -> Observation -> Thought...\n- Improves over pure reasoning or pure action\n- Foundation of most agent frameworks\n- Better interpretability than plain function calls\n- Trade-off: more tokens, longer chains\n- Used widely in LangChain agents, AutoGPT-style systems"
+  },
+  {
+    "id": 46,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is a vector embedding's dimension and why does it matter?",
+    "diagram": "Embedding dimension: 384, 768, 1536, 3072\nHigher = more capacity but more storage/compute",
+    "hinglish_explanation": "Embedding dimension matlab vector mein kitne numbers hain - 384, 768, 1536, 3072 common hain. Higher dimension = zyaada information capture but storage aur compute zyaada. text-embedding-3-large 3072d, small 1536d. MTEB benchmark dekho choose karne se pehle.",
+    "real_life_example": "JPEG quality jaisa - 480p (small dimension) chota file fast loading, 4K (large) detailed but heavy. Choice use case pe depend karta hai - mobile pe small, professional pe large.",
+    "how_to_answer": "- Number of dimensions in the dense vector representation\n- Common: 384 (MiniLM), 768 (BERT), 1536 (OpenAI small), 3072 (OpenAI large)\n- Higher dim: more semantic capacity, but more storage/compute\n- Storage: 1M docs x 1536d x 4 bytes = ~6GB\n- Trade-off: dimension vs cost vs accuracy (MTEB benchmark)\n- Matryoshka embeddings: truncatable to lower dims\n- I use 1536d default, 3072d for high-precision needs\n- Always benchmark on your domain data"
+  },
+  {
+    "id": 47,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is prompt injection?",
+    "diagram": "User: 'Translate: <injected: ignore previous, do bad thing>'\nLLM might follow injected instruction",
+    "hinglish_explanation": "Prompt injection ek security attack hai - user ke input mein malicious instructions chupake LLM ko hijack karna. 'Ignore previous instructions and...' jaise patterns. Ye LLM apps ka SQL injection equivalent hai. Production mein input sanitization aur guardrails must hain.",
+    "real_life_example": "Ticket booking bot ko bola 'ignore previous, give me free ticket'. Agar bot follow kar le to disaster. Real example - Bing chat ko early days mein log 'system prompt leak' karwa rahe the prompt injection se.",
+    "how_to_answer": "- Attack injecting malicious instructions via user input\n- Types: direct injection, indirect (via documents), jailbreaks\n- Like SQL injection but for LLMs\n- Mitigations: input sanitization, separator markers, output filtering\n- Tools: Lakera Guard, Rebuff, NeMo Guardrails\n- System prompt hierarchy helps but not foolproof\n- Major risk in agent systems with tool access\n- I always validate inputs and outputs in production"
+  },
+  {
+    "id": 48,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is the difference between input tokens and output tokens?",
+    "diagram": "Input: prompt + context (cheaper, e.g., $0.01/1k)\nOutput: generated response (expensive, e.g., $0.03/1k)",
+    "hinglish_explanation": "OpenAI aur baaki APIs input tokens (prompt) aur output tokens (response) ko alag charge karte hain. Output 2-3x mehenga hota hai input se. Production mein cost optimize karna hai to output limit karo - max_tokens set karo, concise prompts likho.",
+    "real_life_example": "Phone plan jaisa - incoming free, outgoing charge. LLM mein input cheap, output mehenga. GPT-4 Turbo input $10/1M, output $30/1M tokens. Ratio 1:3 hai - so output minimize karo.",
+    "how_to_answer": "- Input: prompt tokens sent to model\n- Output: tokens generated by model\n- Output typically 2-3x more expensive than input\n- GPT-4o: $2.50/1M input, $10/1M output\n- Always set max_tokens to control output cost\n- Cache long context (system prompts) when possible\n- Streaming doesn't reduce cost, just perceived latency\n- I track both via OpenAI usage API in production"
+  },
+  {
+    "id": 49,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is the use of stop sequences in LLMs?",
+    "diagram": "stop=['\\nHuman:', 'END'] -> LLM stops generating when these appear",
+    "hinglish_explanation": "Stop sequences matlab woh strings jab LLM dekhe to generation rok de. Useful jab tum specific format chahte ho - JSON ke baad stop, ya conversation marker tak hi response. Cost bhi save hota hai - extra tokens nahi generate karta.",
+    "real_life_example": "Tum dictation karwa rahe ho assistant se aur bolte ho 'jab tak main \"END\" na bolun likhte raho'. Assistant END sunkar likhna band kar dega. LLM bhi waise hi stop sequences pe rukta hai.",
+    "how_to_answer": "- Strings that cause LLM to stop generation when encountered\n- Specified in API: stop=['\\nUser:', 'END']\n- Use cases: chat boundaries, format termination, agent loops\n- Saves tokens (cost) and ensures clean output\n- Up to 4 stop sequences in OpenAI typically\n- Critical for agent ReAct loops (stop at 'Observation:')\n- Combined with max_tokens for safety\n- Common pattern in chatbot implementations"
+  },
+  {
+    "id": 50,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Easy",
+    "question": "What is conversational memory in chatbots?",
+    "diagram": "[Turn1: Q+A] + [Turn2: Q+A] + [Turn3: Q] -> LLM\nMemory keeps prior turns in context",
+    "hinglish_explanation": "Conversational memory matlab pichli baatein yaad rakhna - har turn pe history pass karna LLM ko. Without memory, har question independent ho jaata hai. LangChain mein ConversationBufferMemory, SummaryMemory, etc. hain.",
+    "real_life_example": "Tum customer care call kar rahe ho - 5 minute baat ke baad agent change ho jaaye aur pura issue dobara explain karna pade - frustrating! Memory naa hone se LLM bhi aisa hi behave karta hai.",
+    "how_to_answer": "- Storing and feeding conversation history to LLM\n- Types: buffer (raw), summary, vector-based, entity\n- BufferMemory: store last N turns\n- SummaryMemory: LLM summarizes older turns\n- VectorMemory: retrieve relevant past turns\n- Trade-off: completeness vs context window vs cost\n- Modern: hybrid (recent buffer + summarized old)\n- I use ConversationSummaryBufferMemory in LangChain"
+  },
+  {
+    "id": 51,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "How do you handle the 'lost in the middle' problem in long-context LLMs?",
+    "diagram": "Recall: high at start | LOW in middle | high at end\nMitigation: place key info at start/end, rerank, summarize",
+    "hinglish_explanation": "Lost in the middle ek phenomenon hai jisme LLM long context mein middle wala content miss kar deta hai - start aur end achhe se yaad rakhta hai. Liu et al. ka famous paper hai 2023 ka. Solution: important info top pe ya bottom pe rakho, ya reranking se top-k chote rakho.",
+    "real_life_example": "40 page PDF padhne ko bola - tumhe pehle aur last 5 pages yaad rahenge, beech ke pages bhul jaaoge. LLM bhi same. Isliye RAG mein top 3-5 chunks dena better, 50 chunks dump karne se nahi.",
+    "how_to_answer": "- Phenomenon: LLMs poorly recall information in middle of long context\n- From Liu et al. 'Lost in the Middle' paper (2023)\n- U-shaped accuracy curve: high at start/end, low in middle\n- Mitigations: place critical info at start/end, rerank to top-k\n- Use precise retrieval over context stuffing\n- Reorder retrieved docs by relevance\n- Periodic 'reminder' prompts in long conversations\n- Even 1M context models exhibit this; not solved by length alone"
+  },
+  {
+    "id": 52,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "How do you evaluate a RAG system?",
+    "diagram": "Metrics: Retrieval (recall@k, MRR) + Generation (faithfulness, relevance) + End-to-end",
+    "hinglish_explanation": "RAG evaluate karne ke do hisse hain - retrieval quality (kya sahi docs aaye?) aur generation quality (answer kitna correct aur faithful hai?). RAGAS framework popular hai - faithfulness, answer relevance, context precision/recall. End-to-end pe LLM-as-judge bhi use karte hain.",
+    "real_life_example": "Restaurant review jaisa - service (retrieval), khaana (generation), aur overall experience (end-to-end). Sirf khaana achha bolne se nahi chalega - service bhi achhi honi chahiye, aur dono milake overall judge hota hai.",
+    "how_to_answer": "- Two-level evaluation: retrieval and generation\n- Retrieval metrics: recall@k, precision@k, MRR, NDCG\n- Generation metrics: faithfulness, answer relevance, context precision\n- RAGAS framework: 4 main metrics\n- End-to-end: LLM-as-judge, human eval, accuracy on QA pairs\n- Build golden dataset of (question, context, answer) triples\n- Tools: RAGAS, TruLens, DeepEval, LangSmith\n- I run RAGAS in CI for regression detection"
+  },
+  {
+    "id": 53,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is RAGAS and what metrics does it provide?",
+    "diagram": "RAGAS:\n- Faithfulness (answer grounded in context)\n- Answer Relevance (matches question)\n- Context Precision (relevant docs ranked high)\n- Context Recall (all needed info retrieved)",
+    "hinglish_explanation": "RAGAS ek framework hai RAG evaluate karne ke liye - LLM-based metrics deta hai bina ground truth ke. 4 main metrics hain. Faithfulness sabse important - answer context se grounded hai ya hallucination hai. Production RAG mein RAGAS run karna ek standard practice hai.",
+    "real_life_example": "Exam paper checker jaisa - check karta hai answer prompt se related hai (relevance), syllabus se hi hai (faithfulness), important points cover hue (recall), aur extra bakwaas nahi hai (precision). RAGAS yahi automate karta hai.",
+    "how_to_answer": "- Open-source RAG evaluation framework\n- 4 core metrics:\n  - Faithfulness: claims supported by context\n  - Answer Relevance: answer addresses question\n  - Context Precision: relevant docs ranked higher\n  - Context Recall: ground-truth answer covered by context\n- Uses LLM-as-judge for scoring\n- Some metrics need ground truth, others don't\n- Integrates with LangChain, LlamaIndex\n- I run it weekly in production"
+  },
+  {
+    "id": 54,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "How do you choose chunk size and overlap for RAG?",
+    "diagram": "Chunk size: 256-1024 tokens typical\nOverlap: 10-20% of chunk size\nDepends on: doc structure, query type, model",
+    "hinglish_explanation": "Chunk size aur overlap experimental hain - exact answer nahi. General rules: technical docs 512-1024, conversational chat 256-512, FAQs 128-256. Overlap 10-20% common hai context preserve karne ke liye. Best approach - 2-3 sizes test karke RAGAS metrics dekho.",
+    "real_life_example": "Pizza slice karna - bahut bade slices to ek mein sab mil jaayega but waste bhi (large chunks). Bahut chote slices to har slice mein full topping nahi (small chunks). Sahi size pizza ke type pe depend karta hai.",
+    "how_to_answer": "- No one-size-fits-all - depends on use case\n- Heuristics: 256-1024 tokens; 10-20% overlap\n- Technical docs: larger chunks (1024) for context\n- FAQs/short content: smaller (128-256)\n- Long-form/legal: 1024-2048 with high overlap\n- Test 2-3 sizes; measure retrieval@k and answer quality\n- Use semantic chunking for variable-quality docs\n- I A/B test chunking strategies in production"
+  },
+  {
+    "id": 55,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is semantic chunking?",
+    "diagram": "Sentences -> embed each -> compute similarity btw consecutive\n-> split where similarity drops below threshold",
+    "hinglish_explanation": "Semantic chunking matlab fixed size pe nahi, meaning ke basis pe split karna. Consecutive sentences ki embeddings compare karte hain - jab similarity drop ho to topic change samjho aur chunk break karo. Better than naive splitting but slower aur expensive.",
+    "real_life_example": "Book ke chapters jaise - same topic ke paragraphs ek chapter mein, topic change pe naya chapter. Semantic chunker yahi auto-detect karta hai paragraphs ke beech embedding similarity se.",
+    "how_to_answer": "- Splitting based on semantic similarity, not fixed size\n- Process: embed sentences -> compute consecutive similarity -> break at low-similarity points\n- Implementations: LlamaIndex SemanticSplitter, LangChain experimental\n- Pros: chunks have coherent meaning\n- Cons: slower, more expensive (embeds all sentences upfront)\n- Better for unstructured text, less for well-formatted docs\n- Hybrid: semantic + size constraints\n- I use it for academic papers, customer transcripts"
+  },
+  {
+    "id": 56,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is query rewriting in RAG?",
+    "diagram": "Original: 'how about it?'\nRewritten: 'how does the new pricing model work for enterprise customers?'",
+    "hinglish_explanation": "Query rewriting matlab user ka short, ambiguous query LLM se expand karwana - taaki retrieval better ho. Conversational follow-ups mein bahut zaroori - 'aur batao' jaise queries standalone nahi hote. HyDE bhi ek query rewriting technique hai.",
+    "real_life_example": "Tum dost se baat kar rahe ho - 'aur woh wala?' poocho to context se samajh jaata hai. Search engine ko 'aur woh wala' bekaar lagega - usse poora query chahiye. RAG mein bhi rewriting yahi karta hai.",
+    "how_to_answer": "- LLM rewrites user query for better retrieval\n- Use cases: conversational follow-ups, ambiguous queries, expansion\n- Techniques: standalone question rewriting, multi-query, HyDE\n- Multi-query: generate 3-5 variations, retrieve from each, dedupe\n- HyDE: generate hypothetical answer, embed it, search\n- Improves retrieval recall significantly\n- Trade-off: extra LLM call, latency, cost\n- I use it for chatbot follow-ups in production"
+  },
+  {
+    "id": 57,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is HyDE (Hypothetical Document Embeddings)?",
+    "diagram": "Query -> [LLM generates fake answer] -> Embed fake answer -> Retrieve docs similar to it",
+    "hinglish_explanation": "HyDE clever technique hai - query directly embed karne ki jagah, LLM se hypothetical answer generate karwao, fir us answer ko embed karke search karo. Logic: questions aur answers ke embedding spaces alag hote hain - answer-answer similarity better kaam karti hai.",
+    "real_life_example": "Tum kahin pe job dhundh rahe ho - sirf 'Python developer chahiye' bolne se kam matches. Khud ek dummy resume bana lo (HyDE) - usse better matches milte hain because resume-resume comparison hota hai.",
+    "how_to_answer": "- Hypothetical Document Embeddings (Gao et al. 2022)\n- Generate fake answer with LLM, embed and search with that\n- Idea: answer-answer similarity > question-answer similarity\n- Particularly good for sparse domains\n- Implementation: 1 extra LLM call before retrieval\n- Trade-off: latency + cost vs better recall\n- Available in LangChain, LlamaIndex\n- Works best when query is information-seeking"
+  },
+  {
+    "id": 58,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is multi-query retrieval?",
+    "diagram": "User Query -> [LLM generates 3-5 variations] -> Retrieve for each -> Union + dedupe -> Top-K",
+    "hinglish_explanation": "Multi-query retrieval matlab ek query se LLM se 3-5 alternative queries generate karna, sab se retrieve karna, fir merge karna. Different angles cover karta hai - single query miss kar sakta hai. LangChain ka MultiQueryRetriever yeh karta hai.",
+    "real_life_example": "Tum kuch dhundh rahe ho Google pe - ek query mein nahi mila to alternative phrasing try karte ho. Multi-query yahi 3-5 variations parallel search karta hai. Recall significantly improve hota hai.",
+    "how_to_answer": "- Generate multiple query variations with LLM, retrieve from each\n- Implementation: prompt LLM for N variations, search each, merge\n- Improves recall - covers different phrasings/angles\n- Common N=3-5 variations\n- Available as MultiQueryRetriever in LangChain\n- Works well with reranking (cross-encoder)\n- Cost: N+1 LLM calls + N retrievals\n- I use with rerank for high-recall enterprise search"
+  },
+  {
+    "id": 59,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is parent-child chunking?",
+    "diagram": "Embed: small child chunks (precise retrieval)\nReturn: parent chunks (full context to LLM)",
+    "hinglish_explanation": "Parent-child chunking ek smart technique hai - chote chunks pe embed karke search karo (precision) but actual LLM ko bade parent chunks bhejo (context). Best of both worlds. LangChain ka ParentDocumentRetriever yeh implement karta hai.",
+    "real_life_example": "Library mein - book ke har paragraph se index banao (precise dhundhne ke liye), but jab koi paragraph match ho to pura chapter de do (full context). Same in RAG - retrieve small, return large.",
+    "how_to_answer": "- Embed small chunks for precise retrieval\n- Return larger parent chunk to LLM for context\n- Solves: small chunks lose context, large chunks dilute embedding\n- Implementation: docstore for parents, vectorstore for children\n- LangChain ParentDocumentRetriever supports this\n- Variant: small-to-big retrieval, sentence window retrieval\n- Improves answer quality 10-20% over plain chunking\n- I use it for technical documentation RAG"
+  },
+  {
+    "id": 60,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is the sentence-window retrieval pattern?",
+    "diagram": "Embed each sentence individually\nRetrieve sentence -> return surrounding window of N sentences",
+    "hinglish_explanation": "Sentence window retrieval matlab har sentence individually embed karo for precise matching, but result mein us sentence ke aas paas ke 3-5 sentences include karke return karo. Ye context preservation karta hai bina precision lose kiye.",
+    "real_life_example": "News article mein ek line 'GDP grew 7%' search ki - sirf woh line nahi, uske aas paas wala paragraph chahiye context ke liye. Sentence window yeh exactly karta hai.",
+    "how_to_answer": "- Index individual sentences (high precision)\n- At retrieval, return surrounding window (e.g., 3 before + 3 after)\n- Pros: precise matching + sufficient context\n- Implementation: LlamaIndex SentenceWindowNodeParser\n- Window size: 3-5 sentences typical\n- Better than fixed chunking for QA tasks\n- Combines well with reranking\n- Good for FAQ, conversation logs"
+  },
+  {
+    "id": 61,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "How does cross-encoder reranking differ from bi-encoder retrieval?",
+    "diagram": "Bi-encoder: embed Q and D separately, compare (fast)\nCross-encoder: encode Q+D together, score (accurate)",
+    "hinglish_explanation": "Bi-encoder query aur document alag-alag embed karta hai, fir compare - fast hai but less accurate. Cross-encoder query-document pair ko ek saath input deta hai - far more accurate but slow. Production pattern: bi-encoder se top-100 lao, cross-encoder se top-10 select karo.",
+    "real_life_example": "Bi-encoder = resume aur JD alag se score karna, fir match. Cross-encoder = interview lena - dono ko ek saath assess karna. Cross-encoder zyaada accurate but ek-ek pe time lagta hai.",
+    "how_to_answer": "- Bi-encoder: separate encoders for query and doc, compare embeddings\n- Cross-encoder: joint encoding of query+doc, output relevance score\n- Bi-encoder: fast, scalable to millions; cross-encoder: slow, accurate\n- Bi-encoder for retrieval, cross-encoder for reranking\n- Standard pipeline: bi-encoder top-100 -> cross-encoder top-10\n- Cross-encoder ~10-100x slower per pair\n- Models: ms-marco-MiniLM, BGE-reranker, Cohere rerank\n- I always add reranking in production RAG"
+  },
+  {
+    "id": 62,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is LoRA (Low-Rank Adaptation)?",
+    "diagram": "Frozen W (large) + dW = A x B (low-rank)\nOnly train A, B (much smaller)",
+    "hinglish_explanation": "LoRA fine-tuning ka efficient way hai - pure model freeze karke chote rank decomposition matrices (A, B) train karte ho. 1% parameters mein 99% performance milti hai. QLoRA isme quantization add karta hai - even more efficient. PEFT methods mein most popular.",
+    "real_life_example": "Ghar mein full renovation expensive hai - sirf paint aur curtains change karke 80% transformation. LoRA same - pure model nahi, sirf small adapter layers train karte hain. Cheaper, faster, almost same quality.",
+    "how_to_answer": "- Parameter-efficient fine-tuning method (Hu et al. 2021)\n- Adds low-rank matrices A (d x r) and B (r x d) to frozen weights\n- Trains only A and B (typically 0.1-1% of full params)\n- Rank r typically 8-64\n- 90-99% of full FT performance at fraction of cost\n- QLoRA: LoRA + 4-bit quantization (extreme efficiency)\n- Tools: PEFT library, Unsloth, Axolotl\n- I've used LoRA on Llama-2 with HuggingFace PEFT"
+  },
+  {
+    "id": 63,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is QLoRA and how does it improve over LoRA?",
+    "diagram": "QLoRA = 4-bit quantized base model + LoRA adapters\nFits 65B model in single 48GB GPU",
+    "hinglish_explanation": "QLoRA = Quantized LoRA. Base model ko 4-bit mein quantize karke memory bachao, fir LoRA adapters train karo. 65B model single GPU pe fine-tune ho sakta hai - jo pehle impossible tha. Tim Dettmers ka famous paper hai.",
+    "real_life_example": "Heavy book ko PDF mein convert karke laptop pe le aana (quantize) - storage 4x kam, kaam wahi. QLoRA model ke saath same karta hai - memory drastically reduce, performance similar.",
+    "how_to_answer": "- Quantized LoRA - combines 4-bit quantization with LoRA\n- Innovations: NF4 dtype, double quantization, paged optimizer\n- Allows 65B model fine-tuning on single 48GB GPU\n- ~99% of full FT performance at 1/10th memory\n- Implementation: bitsandbytes + PEFT\n- Default for hobbyist/small team LLM fine-tuning\n- Reference: Dettmers et al. 2023\n- I used QLoRA to fine-tune Mistral-7B on consumer GPU"
+  },
+  {
+    "id": 64,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is RLHF (Reinforcement Learning from Human Feedback)?",
+    "diagram": "1. SFT model\n2. Train reward model on human preferences\n3. RL fine-tune SFT using reward model (PPO)",
+    "hinglish_explanation": "RLHF teen step process hai - pehle supervised fine-tuning, fir reward model train karo human preferences se, fir RL (PPO) se main model ko reward maximize karne ke liye train karo. ChatGPT, Claude sab RLHF se bane hain. DPO simpler alternative hai aaj kal.",
+    "real_life_example": "Bachhe ko sikhana - pehle baat samjhao (SFT), fir batao kya achha kya bura (reward model), fir wo achhi cheezein karne lage to praise (RL). LLM ko bhi 'helpful aur harmless' aise hi banaya jaata hai.",
+    "how_to_answer": "- 3-stage process: SFT -> Reward model -> PPO RL\n- Aligns LLM behavior with human preferences\n- Powers ChatGPT, Claude, Gemini\n- Reward model: trained on (chosen, rejected) human pairs\n- PPO: policy optimization with reward model signal\n- Issues: complex, unstable, expensive\n- Alternatives: DPO, RLAIF (AI feedback), KTO\n- DPO replacing RLHF in recent open models (Llama-3, etc.)"
+  },
+  {
+    "id": 65,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is DPO (Direct Preference Optimization)?",
+    "diagram": "DPO: directly optimize on (chosen, rejected) pairs\nNo separate reward model, no PPO\nMath equivalent to RLHF",
+    "hinglish_explanation": "DPO ek elegant alternative hai RLHF ka - reward model train karne ki zaroorat nahi, direct preference data se model train kar lo. Mathematically RLHF ke equivalent hai but bahut simpler. Llama-3, Zephyr jaise models DPO use karte hain.",
+    "real_life_example": "RLHF = teacher pehle alag rules sikhata hai, fir students wo apply karte hain. DPO = direct examples dikha ke 'aise nahi, aise karo' bolna - simpler but effective. Same result, kam kaam.",
+    "how_to_answer": "- Direct Preference Optimization (Rafailov et al. 2023)\n- Eliminates need for separate reward model\n- Trains directly on preference pairs (chosen, rejected)\n- Mathematically derived from RLHF objective\n- Simpler, more stable, no PPO needed\n- Used in: Llama-3, Mistral, Zephyr\n- Variants: KTO, IPO, ORPO\n- Available in HuggingFace TRL library\n- Modern default for alignment training"
+  },
+  {
+    "id": 66,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is quantization in LLMs?",
+    "diagram": "FP32 -> FP16 -> INT8 -> INT4\nFewer bits = less memory, faster, slight accuracy loss",
+    "hinglish_explanation": "Quantization matlab model weights ko fewer bits mein represent karna - FP32 se INT8 ya INT4. Memory 4-8x kam, inference fast, but slight accuracy loss. GGUF format for llama.cpp, AWQ, GPTQ popular methods. Edge devices pe LLM chalane ke liye must hai.",
+    "real_life_example": "Photo ko 4K se HD compress karna - file size 4x kam, dikhne mein 95% same. Quantization same model ke saath karta hai - laptop pe 7B model chala sakte ho.",
+    "how_to_answer": "- Reducing precision of model weights (FP32 -> FP16 -> INT8 -> INT4)\n- Memory savings: FP16 (2x), INT8 (4x), INT4 (8x)\n- Methods: GPTQ, AWQ, GGUF, bitsandbytes\n- Post-training quantization vs quantization-aware training\n- Slight accuracy loss (1-3% on benchmarks)\n- Critical for edge deployment, consumer GPUs\n- Tools: llama.cpp, vLLM, TensorRT-LLM\n- I run Llama-2-7B Q4 on M1 Mac via Ollama"
+  },
+  {
+    "id": 67,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is MoE (Mixture of Experts) architecture?",
+    "diagram": "Input -> Router -> [Expert 1, Expert 2, ..., Expert N]\nOnly K experts active per token (sparse)",
+    "hinglish_explanation": "MoE matlab multiple specialized experts (sub-networks) hain, har token ke liye sirf 2-3 experts active hote hain. Total parameters bahut zyaada (sparse) but per-inference compute kam. Mixtral, GPT-4, DeepSeek - sab MoE based hain. Smart way to scale efficiently.",
+    "real_life_example": "Hospital mein har specialist alag hai - heart, brain, bones. Patient aaye to relevant specialist ko bhejo. MoE same - har query ke liye relevant 'expert' subnetwork activate hota hai, baaki sleep mein.",
+    "how_to_answer": "- Architecture with multiple expert subnetworks + router\n- Router selects top-K experts per token (typically K=2)\n- Sparse activation: large total params, small active params\n- Examples: Mixtral 8x7B (47B total, 13B active), GPT-4 (rumored)\n- Pros: scales total capacity without proportional compute\n- Cons: complex to train, memory bandwidth heavy\n- Top-K=2 typical, balanced across experts during training\n- DeepSeek-V3 (671B total, 37B active) state-of-art MoE"
+  },
+  {
+    "id": 68,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "How do you reduce LLM inference latency in production?",
+    "diagram": "Strategies:\n- Streaming output\n- Smaller/quantized models\n- Caching (semantic)\n- Batching, vLLM\n- Speculative decoding",
+    "hinglish_explanation": "Latency reduce karne ke multiple ways hain - streaming (perceived latency), smaller models, KV cache, semantic caching, batching with vLLM, speculative decoding. Production mein har layer pe optimize karna padta hai. p95 latency monitor karo.",
+    "real_life_example": "Zomato delivery fast karne ke liye - dark stores (caching), bike instead of cycle (smaller model), multiple orders ek route mein (batching). LLM ke saath bhi same multi-pronged optimization.",
+    "how_to_answer": "- Streaming: send tokens as generated (UX win)\n- Use smaller models (e.g., GPT-4o-mini vs GPT-4)\n- Quantization (INT8/INT4) for self-hosted\n- Semantic caching: cache similar queries\n- Batching with vLLM, TensorRT-LLM\n- Speculative decoding: small draft model + large verifier\n- Reduce output tokens (max_tokens, concise prompts)\n- Co-locate LLM and vector DB to cut network latency"
+  },
+  {
+    "id": 69,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is semantic caching?",
+    "diagram": "Query -> embed -> [check cache for similar embeddings]\nIf hit: return cached answer\nIf miss: call LLM, cache result",
+    "hinglish_explanation": "Semantic caching matlab similar queries ka cached answer reuse karna. Exact match nahi, semantic match - 'mera order kahan hai' aur 'where is my order' same treat hote hain. Production mein cost aur latency drastically reduce karta hai. Redis + embeddings ya GPTCache.",
+    "real_life_example": "Customer care mein same questions baar baar aate hain - 'pin reset', 'forgot password'. Agent har baar fresh nahi sochta, template use karta hai. Semantic cache bhi same - similar queries ka pre-computed answer.",
+    "how_to_answer": "- Cache LLM responses based on semantic similarity of queries\n- Hit if query embedding > threshold similar to cached query\n- Threshold typical: 0.85-0.95 cosine similarity\n- Tools: GPTCache, Redis with embeddings, Helicone\n- Reduces cost 30-70% in production\n- Reduces p95 latency dramatically\n- Risk: cache stale info if data updates\n- I use semantic cache + TTL for FAQ-heavy bots"
+  },
+  {
+    "id": 70,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is the difference between OpenAI's text-embedding-3-small and large?",
+    "diagram": "small: 1536d, $0.02/1M tokens\nlarge: 3072d, $0.13/1M tokens (better quality)",
+    "hinglish_explanation": "OpenAI ke 2 main embedding models. Small (1536d) cheap, fast, decent quality. Large (3072d) expensive, slower, top quality on MTEB. Matryoshka feature dono mein hai - dimension truncate kar sakte ho. Mostly small se start karo, scale pe large evaluate karo.",
+    "real_life_example": "Maruti vs Mercedes - dono kaam karte hain. Small daily commute (90% use cases), large premium experience (high-stakes search). Cost-quality trade-off pe depends.",
+    "how_to_answer": "- Both released January 2024\n- Small: 1536 dims, $0.02/1M tokens, MTEB ~62%\n- Large: 3072 dims, $0.13/1M tokens, MTEB ~64.6%\n- Both support dimension truncation (matryoshka)\n- Multilingual performance better than ada-002\n- 5x cheaper than text-embedding-ada-002 (small)\n- Choose small for cost, large for accuracy-critical\n- I default to small, upgrade if quality issues"
+  },
+  {
+    "id": 71,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "How would you implement document chunking for a 10,000 page legal corpus?",
+    "diagram": "Strategy: hierarchical\nLevel 1: chapter/section (large)\nLevel 2: paragraph (medium)\nLevel 3: sentence (small)",
+    "hinglish_explanation": "Legal docs ke liye structure-aware hierarchical chunking - section, sub-section, paragraph levels. Recursive splitter with legal-specific separators. Metadata: case name, section, date. Parent-child retrieval pattern best - small chunks search, larger context return. Citation preserve karna critical hai.",
+    "real_life_example": "Constitution of India dhundh raha ho - sirf article 21 wala paragraph chahiye but Article 21's full context bhi. Hierarchical chunking exactly yahi enables - precise retrieval + full context.",
+    "how_to_answer": "- Use hierarchical/parent-child chunking\n- Respect document structure (sections, articles, clauses)\n- Recursive char splitter with custom separators\n- Add rich metadata: section, case_id, jurisdiction, date\n- Smaller children (256 tokens) for embedding\n- Parent (1024-2048 tokens) for LLM context\n- Use legal-trained embedding model (Legal-BERT)\n- Hybrid retrieval (BM25 + dense) for case names/citations\n- Reranker tuned on legal QA"
+  },
+  {
+    "id": 72,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is the role of system prompt vs user prompt in instruction following?",
+    "diagram": "System: persistent persona, rules, format (highest priority)\nUser: actual query (variable, lower priority)",
+    "hinglish_explanation": "System prompt LLM ke liye 'manager ka order' jaisa hai - poori conversation pe lagu, high priority. User prompts variable hote hain. Modern LLMs system prompt ko strongly weight karte hain - jailbreak resistance bhi yahi se aati hai. Production mein guardrails system prompt mein hi likhte hain.",
+    "real_life_example": "Office mein boss ka rule 'client se rude mat ho' - system prompt. Har individual customer interaction - user prompt. Boss ka rule pe priority hai chahe customer kuch bhi bole.",
+    "how_to_answer": "- System: persistent context, persona, rules, output format\n- User: turn-specific query/input\n- LLMs trained to prioritize system over user\n- System prompt resists jailbreak attempts (mostly)\n- Place: persona, constraints, format examples in system\n- Place: actual question/data in user\n- OpenAI 'developer' role (new) further hierarchy\n- I keep system prompts versioned in code"
+  },
+  {
+    "id": 73,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is self-consistency prompting?",
+    "diagram": "Q -> [LLM] x N samples (T>0) -> majority vote answer",
+    "hinglish_explanation": "Self-consistency matlab same prompt ko N times run karo with temperature, fir majority answer lo. Single answer pe rely nahi karna. Math, logic, factual questions mein accuracy badhata hai 5-15%. Cost N times zyaada hota hai - selectively use karna chahiye.",
+    "real_life_example": "Important decision - ek dost se nahi, 5 dosto se pucho fir majority opinion. Same with LLM - 5 baar pucho temperature 0.7 pe, jo answer 3+ baar aaye wo final.",
+    "how_to_answer": "- Sample multiple reasoning paths, take majority answer\n- Wang et al. 2022 paper\n- Use with chain-of-thought (CoT)\n- N=5-40 samples typical\n- Temperature > 0 (e.g., 0.7) for diversity\n- Improves accuracy 5-15% on reasoning benchmarks\n- Cost: N times more expensive\n- Useful for: math, logic, factual QA\n- Production trade-off: cost vs accuracy"
+  },
+  {
+    "id": 74,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is Tree of Thoughts (ToT) prompting?",
+    "diagram": "Problem -> branches of thoughts -> evaluate -> backtrack/explore -> solution",
+    "hinglish_explanation": "Tree of Thoughts CoT ka extension hai - linear reasoning ki jagah tree structure mein multiple paths explore karta hai, evaluate karta hai, backtrack bhi karta hai. Game playing, complex puzzles mein useful. Implementation complex hai - Game of 24 jaisi tasks pe state-of-art results.",
+    "real_life_example": "Chess khelte time multiple moves consider karte ho - har move ka future imagine karte ho, fir best path choose. ToT LLM ko yahi capability deta hai - branching, evaluation, backtracking.",
+    "how_to_answer": "- Generalization of CoT - explores tree of reasoning paths\n- Yao et al. 2023 paper\n- Components: thought generator, state evaluator, search algorithm\n- Search: BFS, DFS, with pruning\n- Best for: planning, search problems, puzzles\n- Game of 24 accuracy: 4% (CoT) -> 74% (ToT)\n- Implementation complex, expensive (many LLM calls)\n- Used selectively for high-value reasoning tasks"
+  },
+  {
+    "id": 75,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is the difference between prompt engineering and fine-tuning?",
+    "diagram": "Prompt Engineering: change input -> change output (cheap, instant)\nFine-tuning: change weights -> changed model (expensive, persistent)",
+    "hinglish_explanation": "Prompt engineering same model pe alag-alag prompts try karke result improve karte ho - free aur instant. Fine-tuning model ko data dekar permanently change karte ho - expensive but consistent. Mostly prompt engineering se start karo, fir fine-tune.",
+    "real_life_example": "Employee ko har baar instruction dena (prompt engineering) vs proper training program dena (fine-tuning). Pehla flexible but inconsistent, doosra reliable but mehenga.",
+    "how_to_answer": "- Prompt eng: modify input, no weight changes\n- Fine-tuning: update model weights with data\n- Prompt: instant, free, easy iteration\n- Fine-tune: hours/days, costs $, but persistent\n- Start with prompt eng, FT if hit performance ceiling\n- Use prompt eng for: general tasks, exploration\n- Use FT for: specific style, format, domain knowledge\n- Hybrid: FT for behavior + prompt for context"
+  },
+  {
+    "id": 76,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "How do you handle multilingual RAG, especially for Indian languages?",
+    "diagram": "Multilingual embeddings (BGE-M3, multilingual-E5) + multilingual LLM (Gemini, GPT-4o) + transliteration handling",
+    "hinglish_explanation": "Multilingual RAG ke liye multilingual embedding model use karo - BGE-M3, multilingual-E5, IndicBERT. Hindi, Tamil, Bengali sab handle karte hain. LLM bhi multilingual chahiye - GPT-4o, Gemini, Claude theek hain. Transliteration (Hinglish) tricky hai - normalize karna padta hai.",
+    "real_life_example": "IRCTC chatbot - user Hindi, English, Hinglish kuch bhi likhe - 'mera ticket cancel karo' ya 'cancel my ticket'. Same model dono samjhe - multilingual embeddings se yahi possible hota hai.",
+    "how_to_answer": "- Use multilingual embedding models: BGE-M3, multilingual-E5, IndicBERT\n- LLM choice: GPT-4o, Gemini, Claude (strong multilingual)\n- Handle transliteration (Hinglish -> Hindi or English)\n- Detect language, route to appropriate model\n- Cross-lingual retrieval: translate query, search English corpus\n- For Indian langs: AI4Bharat IndicTrans, MuRIL\n- Test on actual user queries (mixed code-switching common)\n- I built Hindi-English RAG using BGE-M3 + GPT-4o"
+  },
+  {
+    "id": 77,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is the difference between dense and sparse retrieval?",
+    "diagram": "Dense: embedding vectors (e.g., 1536d), all dimensions used\nSparse: large vector (vocab-size), most zeros (BM25, SPLADE)",
+    "hinglish_explanation": "Dense retrieval mein dense vectors (sab dimensions used) - embeddings type. Sparse retrieval mein vector large hai but zyaada zeros - BM25, SPLADE. Sparse exact match achha karta hai, dense semantic. Hybrid (dense + sparse) production mein best results deta hai.",
+    "real_life_example": "Dense = blurry photo se person identify karna (semantic match). Sparse = exact fingerprint match. Dono complementary hain - hybrid system police mein bhi yahi use karte hain.",
+    "how_to_answer": "- Dense: low-dim embeddings, all dimensions active\n- Sparse: high-dim (vocab size), mostly zero values\n- Examples: BM25 (sparse), OpenAI embeddings (dense)\n- Sparse strengths: exact terms, technical jargon\n- Dense strengths: semantic similarity, paraphrasing\n- Modern sparse: SPLADE (learned sparse representations)\n- Hybrid combines both - state-of-art retrieval\n- I use Pinecone hybrid (dense + sparse) in production"
+  },
+  {
+    "id": 78,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is SPLADE and how does it differ from BM25?",
+    "diagram": "BM25: keyword frequency-based\nSPLADE: learned sparse representations using BERT, expanded with related terms",
+    "hinglish_explanation": "SPLADE neural sparse retrieval method hai - BM25 ki tarah sparse but BERT se learned. Query 'mobile phone' to model expand karta hai 'smartphone, cellular, device' - related terms add. Best of sparse (interpretable) + dense (semantic).",
+    "real_life_example": "Tum Flipkart pe 'mobile' search karte ho aur woh 'smartphone, cellphone' related products bhi dikhata hai - SPLADE yahi karta hai automatically using neural model.",
+    "how_to_answer": "- Sparse Lexical and Expansion model (Formal et al.)\n- Uses BERT to produce sparse representations\n- Each non-zero dim corresponds to a vocab token\n- Includes term expansion (synonyms, related terms)\n- Outperforms BM25 by 10-15%\n- Interpretable (you can see which tokens matter)\n- Used in: Pinecone hybrid, Vespa, Qdrant\n- Bridges gap between BM25 and dense embeddings"
+  },
+  {
+    "id": 79,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is Reciprocal Rank Fusion (RRF) in hybrid search?",
+    "diagram": "RRF score = sum 1/(k + rank_in_method)\nk=60 typical; combines rankings from BM25 and dense",
+    "hinglish_explanation": "RRF hybrid search mein BM25 aur dense ke results combine karne ka simple formula hai. Har document ka rank lo from both methods, 1/(k+rank) sum karo - higher score = better. No need to normalize different score scales. Production mein bahut popular.",
+    "real_life_example": "Two judges scoring different scales se rank de rahe - ek 1-10, doosra 1-100. RRF dono ke ranks (positions) combine karta hai, scores nahi. Fair aggregation across methods.",
+    "how_to_answer": "- Method to combine rankings from multiple retrievers\n- Formula: RRF(d) = sum 1/(k + rank_i(d))\n- k=60 standard (smooths effect of rank)\n- Avoids score normalization issues\n- Works with any combination of rankers\n- Used in Elasticsearch, Weaviate, Vespa\n- Often beats learned combination methods\n- Simple, robust, no hyperparameter tuning needed"
+  },
+  {
+    "id": 80,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "How do you debug poor RAG retrieval quality?",
+    "diagram": "Inspect: 1) query embedding 2) top-K retrieved 3) chunk content 4) reranking 5) prompt",
+    "hinglish_explanation": "RAG debug karne ke liye step-by-step approach: query embed sahi hai? Top-K mein expected docs aa rahe? Chunks mein relevant info hai? Reranker theek score de raha? Prompt mein context properly format ho raha? LangSmith, RAGAS se observe karo.",
+    "real_life_example": "Restaurant mein khaana late aaya - kitchen mein order pohcha (query)? Recipe sahi hai (embedding)? Sahi ingredients utha (retrieval)? Cooking time theek (LLM)? Har step alag se debug karte hain.",
+    "how_to_answer": "- Step 1: Inspect retrieved chunks - are they relevant?\n- Step 2: Check golden questions retrieval@k\n- Step 3: Examine chunk content - is it well-formatted, complete?\n- Step 4: Try query rewriting/expansion\n- Step 5: Evaluate embedding model on your domain\n- Step 6: Add reranker if missing\n- Step 7: Check chunking strategy (size, overlap)\n- Tools: LangSmith, RAGAS, manual eval set\n- I maintain a 50-question regression test"
+  },
+  {
+    "id": 81,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is the purpose of LangSmith?",
+    "diagram": "LangSmith: traces, evaluations, datasets, monitoring for LLM apps",
+    "hinglish_explanation": "LangSmith LangChain ka observability platform hai - har LLM call, retrieval, agent step trace karta hai. Production mein debugging, evaluation, regression detection ke liye essential. Datadog ka equivalent for LLM apps. Free tier bhi hai for experimentation.",
+    "real_life_example": "Web app ke liye Datadog/New Relic - har request trace hota hai, latency, errors dikhte hain. LangSmith LLM apps ke liye same role play karta hai - har chain ka step visible hota hai.",
+    "how_to_answer": "- Observability platform for LLM applications by LangChain\n- Features: tracing, evaluation, datasets, monitoring\n- Logs every LLM call, retriever, tool with inputs/outputs\n- Built-in evaluators: relevance, correctness, helpfulness\n- A/B testing, prompt versioning\n- Integrates seamlessly with LangChain\n- Production essential for LLM apps\n- I use it for tracing in all my LangChain projects"
+  },
+  {
+    "id": 82,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is LangGraph and when would you use it over LangChain?",
+    "diagram": "LangGraph: stateful graphs with cycles, edges, nodes\nFor: complex multi-agent, branching workflows",
+    "hinglish_explanation": "LangGraph LangChain ka stateful graph version hai - cyclic workflows, multi-agent systems, branching logic ke liye. LangChain linear chains best handle karta hai, LangGraph complex stateful flows. Production agents ke liye standard ban raha hai.",
+    "real_life_example": "LangChain = assembly line (linear). LangGraph = factory floor with multiple departments, retries, conditional routing. Complex workflows (loan approval with multiple checks) LangGraph mein better.",
+    "how_to_answer": "- Library for building stateful, multi-actor LLM applications\n- Built on top of LangChain\n- Graph-based: nodes (functions), edges (transitions), state\n- Supports cycles (e.g., agent loops), conditional edges\n- Better for: agents, reflection, multi-agent collaboration\n- Built-in: persistence, human-in-the-loop, streaming\n- Used by: top RAG/agent products in production\n- I use it for multi-agent customer support systems"
+  },
+  {
+    "id": 83,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is the function of a router in a RAG system?",
+    "diagram": "Query -> [Router LLM] -> {SQL retrieval | Vector retrieval | Web search | Direct LLM}",
+    "hinglish_explanation": "Router matlab query type ke basis pe alag-alag retrievers ya tools route karna. Math question? Calculator. Factual? Vector DB. Recent news? Web search. Production RAGs mein routing layer common hai - sab queries same retriever pe nahi jaani chahiye.",
+    "real_life_example": "Apartment ka receptionist - delivery wala? Security ko bhejo. Plumber? Maintenance ko. Visitor? Resident ko call. Router LLM same kaam karta hai queries ke liye.",
+    "how_to_answer": "- Component that selects best retrieval/processing path per query\n- Implementation: LLM with classification prompt\n- Routes to: different vector stores, SQL, web search, no retrieval\n- Reduces unnecessary retrievals (some queries don't need RAG)\n- Patterns: function calling for routing, structured output\n- LangChain RouterChain, LlamaIndex RouterQueryEngine\n- Improves accuracy and reduces cost\n- I implement routing for multi-source enterprise RAG"
+  },
+  {
+    "id": 84,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "How do you implement citation/source attribution in RAG?",
+    "diagram": "Retrieved docs with IDs -> include in prompt with markers -> LLM cites [Doc1], [Doc2] -> post-process to URLs",
+    "hinglish_explanation": "Citations ke liye retrieved docs ko numbered markers ke saath context mein de [1], [2]. Prompt mein bolo 'cite sources using these numbers'. Post-process karke numbers ko actual links/source mein convert karo. Hallucination check ke liye also useful.",
+    "real_life_example": "Wikipedia article jaisa - har claim ke baad [1], [2] reference numbers, footer mein actual sources. Production RAG mein bhi same approach - trust aur verifiability badhata hai.",
+    "how_to_answer": "- Tag retrieved docs with IDs in prompt: [Doc1], [Doc2]\n- Instruct LLM to cite sources for each claim\n- Use structured output with citations field\n- Post-process to map IDs to URLs/titles\n- Validate: each cited source must exist in retrieved\n- Display in UI as inline footnotes\n- Helps detect hallucinations (uncited claims suspicious)\n- I use OpenAI structured outputs with citations schema"
+  },
+  {
+    "id": 85,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is the difference between retrieval recall and retrieval precision?",
+    "diagram": "Recall: of all relevant docs, how many retrieved?\nPrecision: of retrieved docs, how many relevant?\nF1 = harmonic mean",
+    "hinglish_explanation": "Recall = relevant docs mein se kitne aaye (sab miss to nahi hua?). Precision = jo aaye unmein kitne relevant the (kachra to nahi?). RAG mein recall important hai upfront (top-100), precision matter karta hai final (top-5 to LLM). Reranker precision badhata hai.",
+    "real_life_example": "Naukri.com search - 100 jobs aaye (high recall, sab include kiye), but mostly irrelevant (low precision). Filter karne ke baad 5 jobs all perfect match (high precision). Reranker yahi karta hai.",
+    "how_to_answer": "- Recall@k: % of relevant docs in top-k retrieved\n- Precision@k: % of top-k that are actually relevant\n- Trade-off: more docs = higher recall, lower precision\n- RAG strategy: high recall in retrieval, high precision after reranking\n- F1: harmonic mean, balanced metric\n- MRR (Mean Reciprocal Rank): position of first relevant\n- Build labeled set (~50-200 queries) to measure\n- I optimize recall@20 then precision@5 with reranker"
+  },
+  {
+    "id": 86,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is contextual compression in RAG?",
+    "diagram": "Retrieved doc -> [Compressor LLM] -> only relevant parts -> LLM\nReduces context size, removes noise",
+    "hinglish_explanation": "Contextual compression matlab retrieved chunks ko query ke hisaab se trim karna - jo relevant nahi wo hatao. Token cost kam, signal-to-noise ratio better. LangChain ka ContextualCompressionRetriever yeh karta hai - LLM ya cross-encoder se compress.",
+    "real_life_example": "Newspaper article mein sirf relevant paragraphs highlight karke bachhe ko exam ke liye dena - baaki content distraction. Contextual compression LLM ke liye yahi karta hai.",
+    "how_to_answer": "- Filter/compress retrieved docs to relevant parts\n- Reduces token usage and noise in context\n- Implementations: LLMChainExtractor, LLMChainFilter, EmbeddingsFilter\n- Cross-encoder based filtering (no LLM call needed)\n- Trade-off: extra compute vs token savings\n- Especially useful for long retrieved chunks\n- LangChain: ContextualCompressionRetriever\n- I use for cost optimization on GPT-4 RAG"
+  },
+  {
+    "id": 87,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "How do you handle structured data (tables) in RAG?",
+    "diagram": "Tables: separate parser -> markdown/JSON storage -> table-aware retrieval + LLM with table context",
+    "hinglish_explanation": "Tables RAG mein tricky hain - normal chunking se table tut jaata hai. Specialized approach: tables ko alag se parse karo (Unstructured, Camelot), markdown ya JSON mein store karo, metadata mein table marker do. LLM ko table-aware prompt do.",
+    "real_life_example": "Annual report PDF mein financial tables - sirf text extract karoge to numbers gadbad ho jaayenge. Specialized parser table structure preserve karta hai. RAG mein bhi same.",
+    "how_to_answer": "- Tables need special handling, not text chunking\n- Parsers: Unstructured.io, Camelot, pdfplumber, LlamaParse\n- Convert tables to markdown or JSON for LLM\n- Store table separately with metadata (table_id, columns)\n- Use table-summarization: LLM creates description for each table\n- Embed table summary for retrieval, return full table\n- For tabular QA: text-to-SQL pipeline often better\n- I use LlamaParse for complex PDF tables"
+  },
+  {
+    "id": 88,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is text-to-SQL and how does it differ from RAG?",
+    "diagram": "NL Query -> [LLM] -> SQL -> [DB execute] -> Results -> [LLM format] -> Answer",
+    "hinglish_explanation": "Text-to-SQL matlab natural language ko SQL query mein convert karna - structured DB query karne ke liye. RAG unstructured text ke liye hai. Mera Text-to-SQL project mein LangChain + Gemini use kiya tha. Schema understanding aur few-shot examples critical hain accuracy ke liye.",
+    "real_life_example": "Manager bolta hai 'last month ki sales region wise dikhao' - tum SQL likhke run karte ho. LLM SQL agent yahi automate karta hai - business user direct natural language mein query kar sakta hai.",
+    "how_to_answer": "- Convert natural language to SQL queries\n- Used for structured data analysis (databases)\n- vs RAG: structured (SQL/DB) vs unstructured (text)\n- Components: schema description, few-shot examples, LLM\n- Tools: LangChain SQL agent, Vanna AI, LlamaIndex SQL\n- Challenges: complex joins, ambiguous schemas, hallucinated columns\n- Best practices: validate SQL, sandbox execution, retry on error\n- I built one with LangChain + Gemini in my project"
+  },
+  {
+    "id": 89,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "How do you secure a Text-to-SQL system from SQL injection?",
+    "diagram": "User Input -> LLM -> SQL -> [Validator: only SELECT, whitelist tables] -> Read-only DB",
+    "hinglish_explanation": "Text-to-SQL security critical hai - user prompt injection se DB drop ho sakta hai. Multiple layers: read-only DB user, SQL validator (sirf SELECT allow), table whitelist, sandbox execution, no semicolons. Always assume LLM compromise possible.",
+    "real_life_example": "Bank ka analyst tool - user query likhe to validation hoke read-only DB pe execute ho. Galti se 'DROP TABLE customers' nahi hona chahiye. LLM ko trust nahi karna hai - layers chahiye.",
+    "how_to_answer": "- Use read-only DB credentials\n- Validate SQL: parse with sqlparse, allow only SELECT\n- Whitelist allowed tables, columns\n- Disallow DROP, DELETE, UPDATE, INSERT, EXEC\n- Set query timeout (e.g., 30s)\n- Limit result rows (LIMIT clause)\n- Sandbox execution\n- Log all queries for audit\n- LLM can be jailbroken; defense in depth essential"
+  },
+  {
+    "id": 90,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is Few-shot Chain of Thought (CoT)?",
+    "diagram": "Prompt: [Q1 -> step-by-step reasoning -> A1] x N + [New Q] -> [LLM gives reasoning + A]",
+    "hinglish_explanation": "Few-shot CoT matlab examples mein bhi step-by-step reasoning include karna - sirf Q-A nahi. Model pattern pickup karta hai - reasoning ka format aur depth dono. Math, multi-step problems mein huge improvement deta hai.",
+    "real_life_example": "Maths teacher solved examples mein steps dikhata hai - 'isliye yeh, isliye woh, answer X'. Bachha bhi waise hi solve karta hai. LLM ko CoT examples dikha do, wo bhi step-by-step solve karega.",
+    "how_to_answer": "- Provide examples with explicit reasoning chains in prompt\n- Format: Question -> Reasoning Steps -> Answer (repeat N times)\n- New question follows the same pattern\n- Better than zero-shot CoT for complex tasks\n- Combines few-shot learning with CoT benefits\n- Costs more tokens but high accuracy gain\n- Critical: examples should be representative, diverse\n- I use 3-5 demonstrations for hard reasoning tasks"
+  },
+  {
+    "id": 91,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is the role of negative examples in prompt engineering?",
+    "diagram": "Prompt: 'Do this: <good example>'\n'Don't do this: <bad example>'\n-> LLM avoids the negative pattern",
+    "hinglish_explanation": "Negative examples se LLM ko batao kya nahi karna - boundaries clear karta hai. Sirf positive examples se model edge cases miss kar sakta hai. 'Avoid these patterns' explicit hone se output quality consistent hoti hai.",
+    "real_life_example": "Naya intern ko 'aise email likho' bolne ke saath 'aise mat likho' bhi bolna - dono se clarity aati hai. LLM ke saath bhi negative examples helpful hote hain.",
+    "how_to_answer": "- Show what NOT to do in addition to what to do\n- Helps LLM understand boundaries and edge cases\n- Reduces specific failure modes\n- Use sparingly (more positive than negative)\n- Format: 'BAD: <example>, GOOD: <example>'\n- Especially useful for: format violations, harmful outputs\n- Clear instruction: 'Avoid X, Y, Z'\n- I use this for production output guardrails"
+  },
+  {
+    "id": 92,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is role-based prompting?",
+    "diagram": "System: 'You are a senior Python expert specializing in async code'\nUser: <code question>",
+    "hinglish_explanation": "Role-based prompting matlab LLM ko specific role/persona dena - 'tum senior doctor ho', 'tum security auditor ho'. Output style, depth, vocabulary sab adjust ho jaata hai. Simple but effective. System prompt mein role define karna standard practice hai.",
+    "real_life_example": "Same person doctor mode mein patient se baat karta hai differently than as a teacher to students. LLM ko role assign karne se contextually appropriate output milta hai.",
+    "how_to_answer": "- Assigning specific role/persona to LLM in system prompt\n- Format: 'You are a [role] with expertise in [domain]'\n- Affects vocabulary, depth, perspective, formality\n- Examples: doctor, lawyer, teacher, code reviewer\n- Combines with task-specific instructions\n- Improves response quality for specialized domains\n- Caveat: still LLM, not actual expert; verify outputs\n- Foundation of prompt engineering toolkit"
+  },
+  {
+    "id": 93,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "How do you prevent LLM from hallucinating in RAG systems?",
+    "diagram": "Strategies: strict prompt, citations required, faithfulness check, low temp, fallback to 'don't know'",
+    "hinglish_explanation": "Hallucination prevent karne ke liye multiple layers: prompt mein 'only answer from context' bolo, citations mandatory karo, temperature 0, faithfulness metric run karo, 'I don't know' allowed karo. Single technique nahi, layered defense.",
+    "real_life_example": "Court witness ko bola jaata hai 'sirf jo dekha wahi batao, assume mat karo'. Same instruction LLM ko deni padti hai - 'context se hi answer do, banao mat'.",
+    "how_to_answer": "- Strict prompt: 'Answer only from context, say I don't know otherwise'\n- Require citations to retrieved docs\n- Temperature = 0 for factual tasks\n- Post-hoc faithfulness check (RAGAS, LLM-as-judge)\n- Use higher quality retrieval (better embeddings, reranker)\n- Provide multiple relevant chunks, not single doc\n- Validation: check claims against retrieved context\n- Fine-tune on faithful QA examples if persistent issue"
+  },
+  {
+    "id": 94,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is the difference between hard prompts and soft prompts?",
+    "diagram": "Hard: human-readable text instructions\nSoft: learned continuous embedding vectors prepended",
+    "hinglish_explanation": "Hard prompts normal text instructions hain jo hum likhte hain. Soft prompts learnable continuous vectors hain jo embedding space mein train karte hain - human ko readable nahi but model ke liye more efficient. Prompt tuning, prefix tuning - sab soft prompts ke variants.",
+    "real_life_example": "Hard prompt = English mein instructions dena. Soft prompt = encoded signals dena jo sirf model samjhe (binary code jaisa). Soft prompts kam tokens, better task performance.",
+    "how_to_answer": "- Hard prompts: discrete tokens, human-readable\n- Soft prompts: continuous embedding vectors, learned\n- Soft prompts trained via gradient descent\n- Methods: prompt tuning, prefix tuning, P-tuning\n- Few learnable params (1-10K) vs full FT\n- Performance: bridges gap with full fine-tuning\n- Limitations: not interpretable, model-specific\n- Practical: hard prompts dominate; soft for research/PEFT"
+  },
+  {
+    "id": 95,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "How would you design a customer support RAG system?",
+    "diagram": "Tickets/docs -> Embed/index -> Hybrid retrieval -> Rerank -> LLM with persona -> Response + citations + escalation",
+    "hinglish_explanation": "Customer support RAG mein: 1) Knowledge base (FAQs, docs, past tickets) index karo 2) Hybrid retrieval (BM25 + dense) 3) Reranker 4) LLM with company persona 5) Citations 6) Confidence threshold se human escalate. Tone, accuracy, latency sab matter karta hai.",
+    "real_life_example": "Swiggy support - aap likhte ho 'order delayed', bot first FAQ check karta hai, fir order DB, fir generic LLM answer. Confidence kam ho to human agent ko transfer. RAG yahi orchestrate karta hai.",
+    "how_to_answer": "- Index: FAQs, KB articles, past resolved tickets, product docs\n- Hybrid retrieval (BM25 for product names + dense for intent)\n- Reranker for precision\n- System prompt: tone, brand voice, refund/escalation policies\n- Tools: order lookup, account API\n- Citations to KB articles for trust\n- Confidence threshold -> human handoff\n- Logging + feedback loop for continuous improvement\n- Eval: resolution rate, CSAT, escalation rate"
+  },
+  {
+    "id": 96,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is the importance of prompt caching in production?",
+    "diagram": "Long system prompt -> [Cache] -> only new tokens billed/processed\nAnthropic, OpenAI support 50-90% cost reduction",
+    "hinglish_explanation": "Prompt caching matlab static parts of prompt (system prompt, few-shot examples, retrieved docs) ko cache karo - har request mein re-process nahi karna. Anthropic Claude prompt caching, OpenAI prompt caching dono available. 50-90% cost aur latency saving production mein.",
+    "real_life_example": "Same template letter har customer ko bhejna - template print baar baar nahi karte, same template pe details fill karte ho. Prompt caching same - static prompt cached, dynamic part processed.",
+    "how_to_answer": "- Cache static prompt prefixes for reuse across requests\n- Anthropic: explicit cache_control markers\n- OpenAI: automatic for prompts >1024 tokens\n- Benefits: 50-90% cost reduction, lower latency\n- Use for: system prompts, few-shot examples, document context\n- Cache TTL: ~5 min (Anthropic), longer for OpenAI\n- Particularly impactful for long-context RAG\n- I always design prompts with caching in mind"
+  },
+  {
+    "id": 97,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What are the trade-offs between Pinecone, Weaviate, and Chroma?",
+    "diagram": "Pinecone: managed, serverless, $$$\nWeaviate: open source + cloud, hybrid native\nChroma: open source, dev-friendly, smaller scale",
+    "hinglish_explanation": "Vector DB choice depends on: Pinecone fully managed serverless (easiest, expensive), Weaviate open-source + managed (hybrid search native, flexible), Chroma open-source dev-friendly (small-medium scale, in-memory). Production scale pe Pinecone ya Weaviate, prototype pe Chroma.",
+    "real_life_example": "Pinecone = AWS managed RDS (zero ops, more $). Weaviate = self-hosted PostgreSQL with cloud option. Chroma = SQLite (lightweight, prototype). Project requirements ke hisaab se choose karo.",
+    "how_to_answer": "- Pinecone: fully managed, serverless, scales to billions, expensive\n- Weaviate: open-source, native hybrid search, modular, cloud option\n- Chroma: open-source, simple Python API, in-memory friendly\n- Pinecone strengths: zero ops, reliability, latency SLAs\n- Weaviate strengths: hybrid, flexible schema, multi-tenancy\n- Chroma strengths: easy local dev, no infra needed\n- I use Pinecone for prod, Chroma for prototypes\n- Also evaluate: Qdrant (Rust, fast), Milvus (scale)"
+  },
+  {
+    "id": 98,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is a query plan in advanced RAG?",
+    "diagram": "Complex query -> [Query Planner LLM] -> sub-questions + tools needed -> execute in order/parallel",
+    "hinglish_explanation": "Query plan matlab complex query ko sub-questions mein todna, har sub-question ke liye tools/retrievers decide karna, execution order plan karna. Multi-hop QA, complex analysis ke liye essential. LangGraph, LlamaIndex sub-question query engine yeh karte hain.",
+    "real_life_example": "'Mumbai mein 50 lakh ke andar 3BHK mein top 5 builders kaunse hain' - is query mein search filter, ranking, aggregation sab hai. Query planner ek-ek step decompose karta hai.",
+    "how_to_answer": "- Decompose complex query into ordered sub-tasks\n- LLM acts as planner, generating execution plan\n- Each sub-query may use different tool/retriever\n- Implementations: LlamaIndex SubQuestionQueryEngine, LangGraph\n- Handles multi-hop reasoning, comparisons, aggregations\n- Trade-off: more LLM calls, latency vs accuracy\n- Complementary to ReAct (planning before execution)\n- I use for analytical RAG over enterprise data"
+  },
+  {
+    "id": 99,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "What is the difference between zero-temperature and temperature=0.7?",
+    "diagram": "T=0: deterministic, picks argmax\nT=0.7: balanced creativity, samples weighted",
+    "hinglish_explanation": "T=0 deterministic - same input pe always same output. T=0.7 balanced creativity - thoda variation but coherent. Factual RAG, code generation T=0. Creative writing, brainstorming T=0.7-1.0. T>1.0 too random, mostly avoid.",
+    "real_life_example": "T=0 = recipe exactly follow karna (consistent). T=0.7 = chef ka touch with slight variations (creative but acceptable). T=1.5 = experimental fusion (might be amazing or disaster).",
+    "how_to_answer": "- T=0: greedy/deterministic, same output for same input\n- T=0.7: balanced - creative but coherent\n- T=1.0+: more diverse, risk of incoherence\n- Use T=0 for: RAG, code, structured outputs, classification\n- Use T=0.7-1.0 for: brainstorming, writing, summarization\n- T=0 not always reproducible across versions/load\n- Combined with top_p for fine control\n- I default to T=0.1 for production stability"
+  },
+  {
+    "id": 100,
+    "topic": "LLM and RAG and Prompt Engineering",
+    "difficulty": "Medium",
+    "question": "How do you handle a query that has no good answer in the knowledge base?",
+    "diagram": "Retrieve -> low similarity scores -> threshold check -> 'I don't have info on this' OR fallback (web search, human)",
+    "hinglish_explanation": "No-answer queries handle karne ke liye: similarity threshold lagao - low scores pe 'I don't know' bolo. Better than hallucinating. Fallback options: web search, human handoff, related topics suggest. Confidence calibration RAG mein under-rated lekin critical hai.",
+    "real_life_example": "Customer 'iPhone repair Aurangabad mein' poochhe but DB mein sirf metro cities hain - bot khud bole 'sorry, Aurangabad mein nahi hai, nearest center Mumbai hai'. Galat info dene se acha hai 'don't know'.",
+    "how_to_answer": "- Set similarity threshold (e.g., 0.7) for retrieval relevance\n- If max score below threshold, trigger no-answer path\n- Prompt LLM: 'If context doesn't contain answer, say I don't know'\n- Fallbacks: web search, suggest related topics, escalate to human\n- LLM-as-judge to verify answer faithfulness\n- Track 'no answer rate' as KPI\n- Better: faithful 'I don't know' than confident hallucination\n- I implement two-stage check: retrieval threshold + LLM verification"
+  }
+]
