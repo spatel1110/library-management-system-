@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 Study Dashboard</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
+</head>
+<body>
+    <!-- Loading -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loader"><div class="loader-ring"></div><p>Loading...</p></div>
+    </div>
+
+    <div id="app" class="app hidden">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="logo">📚 StudyDash</h1>
+            </div>
+            <nav class="sidebar-nav">
+                <button class="nav-btn active" data-view="home"><span class="nav-icon">🏠</span><span class="nav-text">Home</span></button>
+                <button class="nav-btn" data-view="questions"><span class="nav-icon">📝</span><span class="nav-text">Questions</span></button>
+                <button class="nav-btn" data-view="bookmarks"><span class="nav-icon">⭐</span><span class="nav-text">Bookmarks</span><span id="bookmark-count" class="badge">0</span></button>
+            </nav>
+            <div class="sidebar-progress">
+                <div class="progress-bar-container"><div id="overall-progress-bar" class="progress-bar" style="width:0%"></div></div>
+                <p id="overall-progress-text" class="progress-text">0 / 0 done</p>
+            </div>
+            <div class="sidebar-footer">
+                <button id="reset-btn" class="reset-btn">🔄 Reset Progress</button>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <div class="search-container">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="search-input" class="search-input" placeholder="Search across all questions... (Ctrl+K)">
+                    <button id="search-clear" class="search-clear hidden">✕</button>
+                </div>
+                <select id="difficulty-filter" class="filter-select">
+                    <option value="all">All Levels</option>
+                    <option value="Easy">🟢 Easy</option>
+                    <option value="Medium">🟡 Medium</option>
+                    <option value="Hard">🔴 Hard</option>
+                </select>
+            </header>
+
+            <div class="content-area">
+                <!-- HOME VIEW -->
+                <div id="view-home" class="view active">
+                    <!-- Quick Stats -->
+                    <div class="quick-stats">
+                        <div class="qs-item"><span class="qs-val" id="qs-total">0</span><span class="qs-label">Total</span></div>
+                        <div class="qs-item qs-green"><span class="qs-val" id="qs-done">0</span><span class="qs-label">Done</span></div>
+                        <div class="qs-item qs-orange"><span class="qs-val" id="qs-remaining">0</span><span class="qs-label">Remaining</span></div>
+                        <div class="qs-item qs-blue"><span class="qs-val" id="qs-files">0</span><span class="qs-label">Files</span></div>
+                    </div>
+
+                    <!-- Main Topics (from files) -->
+                    <h2 class="section-title">📂 Main Topics</h2>
+                    <div id="main-topics-grid" class="main-topics-grid"></div>
+
+                    <!-- Subtopics (shown after clicking a main topic) -->
+                    <div id="subtopics-section" class="subtopics-section hidden">
+                        <div class="subtopics-header">
+                            <button class="back-btn" onclick="hideSubtopics()">← Back</button>
+                            <h2 class="section-title" id="subtopics-title">Subtopics</h2>
+                        </div>
+                        <div id="subtopics-grid" class="subtopics-grid"></div>
+                    </div>
+                </div>
+
+                <!-- QUESTIONS VIEW -->
+                <div id="view-questions" class="view">
+                    <div class="questions-header">
+                        <h2 id="questions-title">📝 All Questions</h2>
+                        <p class="view-subtitle" id="questions-subtitle"></p>
+                    </div>
+                    <div id="questions-list" class="questions-list"></div>
+                    <div id="pagination" class="pagination"></div>
+                </div>
+
+                <!-- BOOKMARKS VIEW -->
+                <div id="view-bookmarks" class="view">
+                    <h2>⭐ Bookmarks</h2>
+                    <div id="bookmarks-list" class="questions-list"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div id="question-modal" class="modal hidden">
+        <div class="modal-overlay" onclick="closeModal()"></div>
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">✕</button>
+            <div id="modal-body" class="modal-body"></div>
+        </div>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+    <script src="static/js/app.js"></script>
+</body>
+</html>
