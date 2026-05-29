@@ -378,3 +378,80 @@ mark { background: rgba(245,158,11,0.3); color: var(--text-primary); border-radi
   .content-area { padding: 16px; }
   .search-shortcut { display: none; }
 }
+
+
+
+/* ========== Modal Navigation (Prev/Next) ========== */
+.modal-nav-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+.modal-nav-counter {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  background: var(--bg-card);
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+}
+.modal-nav-btn {
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  transition: var(--transition);
+  cursor: pointer;
+}
+.modal-nav-btn:hover:not(.disabled) {
+  background: var(--accent-purple);
+  border-color: var(--accent-purple);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+}
+.modal-nav-btn.disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Bottom large navigation buttons */
+.modal-nav-footer {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+}
+.modal-nav-btn-large {
+  flex: 1;
+  padding: 14px 20px;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--bg-card), var(--bg-hover));
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  transition: var(--transition);
+  cursor: pointer;
+  text-align: center;
+}
+.modal-nav-btn-large:hover:not(.disabled) {
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+  border-color: var(--accent-purple);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.3);
+}
+.modal-nav-btn-large.disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+  background: var(--bg-card);
+}

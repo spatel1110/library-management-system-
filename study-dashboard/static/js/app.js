@@ -339,16 +339,52 @@ function renderFiles() {
 }
 
 
-// ========== Question Modal ==========
+// ========== Question Modal with Prev/Next Navigation ==========
+State.currentModalIndex = -1; // Track current question index in filtered list
+
+function getModalQuestionsList() {
+  // Use filtered questions if available, otherwise all questions
+  return State.filteredQuestions.length > 0 ? State.filteredQuestions : State.allQuestions;
+}
+
 function openQuestionModal(key) {
-  const q = State.allQuestions.find(item => getQuestionKey(item) === key);
-  if (!q) return;
+  const questionsList = getModalQuestionsList();
+  const index = questionsList.findIndex(item => getQuestionKey(item) === key);
+  if (index === -1) return;
+
+  State.currentModalIndex = index;
+  renderModalContent(index);
+
   const modal = document.getElementById('question-modal');
+  modal.classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+
+function renderModalContent(index) {
+  const questionsList = getModalQuestionsList();
+  const q = questionsList[index];
+  if (!q) return;
+
+  const key = getQuestionKey(q);
   const body = document.getElementById('modal-body');
   const isCompleted = State.completed.has(key);
   const isBookmarked = State.bookmarks.has(key);
+  const total = questionsList.length;
+  const hasPrev = index > 0;
+  const hasNext = index < total - 1;
 
   body.innerHTML = `
+    <!-- Navigation Header -->
+    <div class="modal-nav-header">
+      <button class="modal-nav-btn ${hasPrev ? '' : 'disabled'}" onclick="navigateModal(-1)" ${hasPrev ? '' : 'disabled'} title="Previous Question (←)">
+        ← Prev
+      </button>
+      <span class="modal-nav-counter">${index + 1} / ${total}</span>
+      <button class="modal-nav-btn ${hasNext ? '' : 'disabled'}" onclick="navigateModal(1)" ${hasNext ? '' : 'disabled'} title="Next Question (→)">
+        Next →
+      </button>
+    </div>
+
     <h2>${escapeHtml(q.question)}</h2>
     <div class="question-card-meta" style="margin-bottom:20px">
       <span class="meta-tag ${(q.difficulty||'').toLowerCase()}">${q.difficulty || 'N/A'}</span>
@@ -359,22 +395,44 @@ function openQuestionModal(key) {
     ${q.hinglish_explanation ? `<div class="modal-section"><div class="modal-section-title">💬 Hinglish Explanation</div><div class="modal-section-content">${escapeHtml(q.hinglish_explanation)}</div></div>` : ''}
     ${q.real_life_example ? `<div class="modal-section"><div class="modal-section-title">🎯 Real Life Example</div><div class="modal-section-content">${escapeHtml(q.real_life_example)}</div></div>` : ''}
     ${q.how_to_answer ? `<div class="modal-section"><div class="modal-section-title">🎤 How to Answer in Interview</div><div class="modal-section-content">${escapeHtml(q.how_to_answer)}</div></div>` : ''}
+
+    <!-- Bottom Actions + Navigation -->
     <div class="modal-actions">
-      <button class="modal-btn modal-btn-complete ${isCompleted ? 'done' : ''}" onclick="toggleComplete('${key}'); openQuestionModal('${key}')">
+      <button class="modal-btn modal-btn-complete ${isCompleted ? 'done' : ''}" onclick="toggleComplete('${key}'); renderModalContent(${index})">
         ${isCompleted ? '↩️ Mark Incomplete' : '✅ Mark Complete'}
       </button>
-      <button class="modal-btn modal-btn-bookmark" onclick="toggleBookmark('${key}'); openQuestionModal('${key}')">
+      <button class="modal-btn modal-btn-bookmark" onclick="toggleBookmark('${key}'); renderModalContent(${index})">
         ${isBookmarked ? '★ Unbookmark' : '☆ Bookmark'}
       </button>
     </div>
+
+    <!-- Bottom Prev/Next (large buttons for easy access) -->
+    <div class="modal-nav-footer">
+      <button class="modal-nav-btn-large ${hasPrev ? '' : 'disabled'}" onclick="navigateModal(-1)" ${hasPrev ? '' : 'disabled'}>
+        ← Previous Question
+      </button>
+      <button class="modal-nav-btn-large ${hasNext ? '' : 'disabled'}" onclick="navigateModal(1)" ${hasNext ? '' : 'disabled'}>
+        Next Question →
+      </button>
+    </div>
   `;
-  modal.classList.remove('hidden');
-  document.body.style.overflow = 'hidden';
+
+  // Scroll modal to top
+  document.querySelector('.modal-content').scrollTop = 0;
+}
+
+function navigateModal(direction) {
+  const questionsList = getModalQuestionsList();
+  const newIndex = State.currentModalIndex + direction;
+  if (newIndex < 0 || newIndex >= questionsList.length) return;
+  State.currentModalIndex = newIndex;
+  renderModalContent(newIndex);
 }
 
 function closeModal() {
   document.getElementById('question-modal').classList.add('hidden');
   document.body.style.overflow = '';
+  State.currentModalIndex = -1;
 }
 
 // ========== Toggle Actions ==========
@@ -494,6 +552,17 @@ function setupEventListeners() {
     }
     if (e.key === 'Escape') {
       closeModal();
+    }
+    // Arrow keys for Prev/Next in modal
+    if (State.currentModalIndex >= 0) {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        navigateModal(-1);
+      }
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        navigateModal(1);
+      }
     }
   });
 
