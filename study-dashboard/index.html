@@ -8,239 +8,102 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
 </head>
 <body>
-    <!-- Loading Screen -->
+    <!-- Loading -->
     <div id="loading-screen" class="loading-screen">
-        <div class="loader">
-            <div class="loader-ring"></div>
-            <p>Loading Study Dashboard...</p>
-        </div>
+        <div class="loader"><div class="loader-ring"></div><p>Loading...</p></div>
     </div>
 
-    <!-- Main App -->
     <div id="app" class="app hidden">
         <!-- Sidebar -->
-        <aside id="sidebar" class="sidebar">
+        <aside class="sidebar">
             <div class="sidebar-header">
                 <h1 class="logo">📚 StudyDash</h1>
-                <button id="sidebar-toggle" class="sidebar-toggle" title="Toggle Sidebar">☰</button>
             </div>
-
-            <!-- Navigation -->
             <nav class="sidebar-nav">
-                <button class="nav-btn active" data-view="dashboard">
-                    <span class="nav-icon">🏠</span>
-                    <span class="nav-text">Dashboard</span>
-                </button>
-                <button class="nav-btn" data-view="topics">
-                    <span class="nav-icon">📂</span>
-                    <span class="nav-text">Topics</span>
-                </button>
-                <button class="nav-btn" data-view="questions">
-                    <span class="nav-icon">❓</span>
-                    <span class="nav-text">All Questions</span>
-                </button>
-                <button class="nav-btn" data-view="bookmarks">
-                    <span class="nav-icon">⭐</span>
-                    <span class="nav-text">Bookmarks</span>
-                    <span id="bookmark-count" class="badge">0</span>
-                </button>
-                <button class="nav-btn" data-view="files">
-                    <span class="nav-icon">📄</span>
-                    <span class="nav-text">JSON Files</span>
-                </button>
+                <button class="nav-btn active" data-view="home"><span class="nav-icon">🏠</span><span class="nav-text">Home</span></button>
+                <button class="nav-btn" data-view="questions"><span class="nav-icon">📝</span><span class="nav-text">Questions</span></button>
+                <button class="nav-btn" data-view="bookmarks"><span class="nav-icon">⭐</span><span class="nav-text">Bookmarks</span><span id="bookmark-count" class="badge">0</span></button>
             </nav>
-
-            <!-- Progress Summary -->
             <div class="sidebar-progress">
-                <h3>Overall Progress</h3>
-                <div class="progress-bar-container">
-                    <div id="overall-progress-bar" class="progress-bar" style="width: 0%"></div>
-                </div>
-                <p id="overall-progress-text" class="progress-text">0 / 0 completed</p>
+                <div class="progress-bar-container"><div id="overall-progress-bar" class="progress-bar" style="width:0%"></div></div>
+                <p id="overall-progress-text" class="progress-text">0 / 0 done</p>
             </div>
-
-            <!-- Quick Stats -->
-            <div class="sidebar-stats">
-                <div class="stat-item">
-                    <span class="stat-value" id="stat-total">0</span>
-                    <span class="stat-label">Questions</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-value" id="stat-topics">0</span>
-                    <span class="stat-label">Topics</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-value" id="stat-files">0</span>
-                    <span class="stat-label">Files</span>
-                </div>
+            <div class="sidebar-footer">
+                <button id="reset-btn" class="reset-btn">🔄 Reset Progress</button>
             </div>
         </aside>
 
-        <!-- Main Content -->
+        <!-- Main -->
         <main class="main-content">
             <!-- Top Bar -->
             <header class="top-bar">
                 <div class="search-container">
                     <span class="search-icon">🔍</span>
-                    <input type="text" id="search-input" class="search-input" placeholder="Search questions, topics, keywords..." autocomplete="off">
-                    <kbd class="search-shortcut">Ctrl+K</kbd>
+                    <input type="text" id="search-input" class="search-input" placeholder="Search across all questions... (Ctrl+K)">
                     <button id="search-clear" class="search-clear hidden">✕</button>
                 </div>
-                <div class="top-bar-actions">
-                    <div class="filter-group">
-                        <select id="difficulty-filter" class="filter-select">
-                            <option value="all">All Difficulty</option>
-                            <option value="Easy">🟢 Easy</option>
-                            <option value="Medium">🟡 Medium</option>
-                            <option value="Hard">🔴 Hard</option>
-                        </select>
-                    </div>
-                    <button id="reset-progress-btn" class="btn btn-outline" title="Reset all progress">🔄 Reset</button>
-                </div>
+                <select id="difficulty-filter" class="filter-select">
+                    <option value="all">All Levels</option>
+                    <option value="Easy">🟢 Easy</option>
+                    <option value="Medium">🟡 Medium</option>
+                    <option value="Hard">🔴 Hard</option>
+                </select>
             </header>
 
-            <!-- Content Views -->
-            <div id="content-area" class="content-area">
-                <!-- Dashboard View -->
-                <div id="view-dashboard" class="view active">
-                    <div class="view-header">
-                        <h2>📊 Dashboard Overview</h2>
-                        <p class="view-subtitle">Your study progress at a glance</p>
+            <div class="content-area">
+                <!-- HOME VIEW -->
+                <div id="view-home" class="view active">
+                    <!-- Quick Stats -->
+                    <div class="quick-stats">
+                        <div class="qs-item"><span class="qs-val" id="qs-total">0</span><span class="qs-label">Total</span></div>
+                        <div class="qs-item qs-green"><span class="qs-val" id="qs-done">0</span><span class="qs-label">Done</span></div>
+                        <div class="qs-item qs-orange"><span class="qs-val" id="qs-remaining">0</span><span class="qs-label">Remaining</span></div>
+                        <div class="qs-item qs-blue"><span class="qs-val" id="qs-files">0</span><span class="qs-label">Files</span></div>
                     </div>
 
-                    <!-- Stats Cards -->
-                    <div class="stats-grid">
-                        <div class="stat-card stat-card-purple">
-                            <div class="stat-card-icon">📝</div>
-                            <div class="stat-card-info">
-                                <span class="stat-card-value" id="dash-total">0</span>
-                                <span class="stat-card-label">Total Questions</span>
-                            </div>
-                        </div>
-                        <div class="stat-card stat-card-green">
-                            <div class="stat-card-icon">✅</div>
-                            <div class="stat-card-info">
-                                <span class="stat-card-value" id="dash-completed">0</span>
-                                <span class="stat-card-label">Completed</span>
-                            </div>
-                        </div>
-                        <div class="stat-card stat-card-blue">
-                            <div class="stat-card-icon">📂</div>
-                            <div class="stat-card-info">
-                                <span class="stat-card-value" id="dash-topics">0</span>
-                                <span class="stat-card-label">Topics</span>
-                            </div>
-                        </div>
-                        <div class="stat-card stat-card-orange">
-                            <div class="stat-card-icon">⭐</div>
-                            <div class="stat-card-info">
-                                <span class="stat-card-value" id="dash-bookmarks">0</span>
-                                <span class="stat-card-label">Bookmarks</span>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- Main Topics (from files) -->
+                    <h2 class="section-title">📂 Main Topics</h2>
+                    <div id="main-topics-grid" class="main-topics-grid"></div>
 
-                    <!-- Difficulty Breakdown -->
-                    <div class="section-card">
-                        <h3>Difficulty Breakdown</h3>
-                        <div class="difficulty-bars">
-                            <div class="diff-bar-row">
-                                <span class="diff-label">🟢 Easy</span>
-                                <div class="diff-bar-track">
-                                    <div id="diff-easy-bar" class="diff-bar diff-easy" style="width:0%"></div>
-                                </div>
-                                <span id="diff-easy-count" class="diff-count">0</span>
-                            </div>
-                            <div class="diff-bar-row">
-                                <span class="diff-label">🟡 Medium</span>
-                                <div class="diff-bar-track">
-                                    <div id="diff-medium-bar" class="diff-bar diff-medium" style="width:0%"></div>
-                                </div>
-                                <span id="diff-medium-count" class="diff-count">0</span>
-                            </div>
-                            <div class="diff-bar-row">
-                                <span class="diff-label">🔴 Hard</span>
-                                <div class="diff-bar-track">
-                                    <div id="diff-hard-bar" class="diff-bar diff-hard" style="width:0%"></div>
-                                </div>
-                                <span id="diff-hard-count" class="diff-count">0</span>
-                            </div>
+                    <!-- Subtopics (shown after clicking a main topic) -->
+                    <div id="subtopics-section" class="subtopics-section hidden">
+                        <div class="subtopics-header">
+                            <button class="back-btn" onclick="hideSubtopics()">← Back</button>
+                            <h2 class="section-title" id="subtopics-title">Subtopics</h2>
                         </div>
-                    </div>
-
-                    <!-- Topics Progress -->
-                    <div class="section-card">
-                        <h3>Topics Progress</h3>
-                        <div id="topics-progress-grid" class="topics-progress-grid">
-                            <!-- Populated by JS -->
-                        </div>
+                        <div id="subtopics-grid" class="subtopics-grid"></div>
                     </div>
                 </div>
 
-                <!-- Topics View -->
-                <div id="view-topics" class="view">
-                    <div class="view-header">
-                        <h2>📂 Topics</h2>
-                        <p class="view-subtitle">Browse questions by topic</p>
-                    </div>
-                    <div id="topics-grid" class="topics-grid">
-                        <!-- Populated by JS -->
-                    </div>
-                </div>
-
-                <!-- Questions View -->
+                <!-- QUESTIONS VIEW -->
                 <div id="view-questions" class="view">
-                    <div class="view-header">
-                        <h2>❓ All Questions</h2>
-                        <p class="view-subtitle" id="questions-subtitle">Browse all questions</p>
+                    <div class="questions-header">
+                        <h2 id="questions-title">📝 All Questions</h2>
+                        <p class="view-subtitle" id="questions-subtitle"></p>
                     </div>
-                    <div id="questions-list" class="questions-list">
-                        <!-- Populated by JS -->
-                    </div>
-                    <div id="pagination" class="pagination">
-                        <!-- Populated by JS -->
-                    </div>
+                    <div id="questions-list" class="questions-list"></div>
+                    <div id="pagination" class="pagination"></div>
                 </div>
 
-                <!-- Bookmarks View -->
+                <!-- BOOKMARKS VIEW -->
                 <div id="view-bookmarks" class="view">
-                    <div class="view-header">
-                        <h2>⭐ Bookmarked Questions</h2>
-                        <p class="view-subtitle">Your saved questions for quick review</p>
-                    </div>
-                    <div id="bookmarks-list" class="questions-list">
-                        <!-- Populated by JS -->
-                    </div>
-                </div>
-
-                <!-- Files View -->
-                <div id="view-files" class="view">
-                    <div class="view-header">
-                        <h2>📄 JSON Files</h2>
-                        <p class="view-subtitle">Loaded data files</p>
-                    </div>
-                    <div id="files-list" class="files-list">
-                        <!-- Populated by JS -->
-                    </div>
+                    <h2>⭐ Bookmarks</h2>
+                    <div id="bookmarks-list" class="questions-list"></div>
                 </div>
             </div>
         </main>
     </div>
 
-    <!-- Question Detail Modal -->
+    <!-- Modal -->
     <div id="question-modal" class="modal hidden">
-        <div class="modal-overlay"></div>
+        <div class="modal-overlay" onclick="closeModal()"></div>
         <div class="modal-content">
-            <button class="modal-close" id="modal-close">✕</button>
-            <div id="modal-body" class="modal-body">
-                <!-- Populated by JS -->
-            </div>
+            <button class="modal-close" onclick="closeModal()">✕</button>
+            <div id="modal-body" class="modal-body"></div>
         </div>
     </div>
 
-    <!-- Toast Notifications -->
     <div id="toast-container" class="toast-container"></div>
-
     <script src="static/js/app.js"></script>
 </body>
 </html>
